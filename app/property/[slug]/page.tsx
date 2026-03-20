@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: PropertyPageProps): Promise<M
   
   if (!property) {
     return {
-      title: "Property Not Found | StayLux",
+      title: "Property Not Found | Gokulam Stays",
     }
   }
 
   return {
-    title: `${property.name} | StayLux`,
+    title: `${property.name} | Gokulam Stays`,
     description: property.shortDescription,
   }
 }

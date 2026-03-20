@@ -9,65 +9,65 @@ const instagramPosts = [
     image: "/instagram/post-1.jpg",
     likes: 234,
     comments: 18,
-    alt: "Sunset view from villa balcony",
+    alt: "Morning yoga in Gokulam",
   },
   {
     id: 2,
     image: "/instagram/post-2.jpg",
     likes: 189,
     comments: 12,
-    alt: "Infinity pool overlooking ocean",
+    alt: "Traditional South Indian breakfast",
   },
   {
     id: 3,
     image: "/instagram/post-3.jpg",
     likes: 312,
     comments: 27,
-    alt: "Cozy mountain chalet interior",
+    alt: "Peaceful garden at homestay",
   },
   {
     id: 4,
     image: "/instagram/post-4.jpg",
     likes: 456,
     comments: 34,
-    alt: "City skyline at night",
+    alt: "Mysuru Palace at sunset",
   },
   {
     id: 5,
     image: "/instagram/post-5.jpg",
     likes: 278,
     comments: 21,
-    alt: "Tropical garden pathway",
+    alt: "Chamundi Hills view",
   },
   {
     id: 6,
     image: "/instagram/post-6.jpg",
     likes: 367,
     comments: 29,
-    alt: "Beachfront morning coffee",
+    alt: "Filter coffee morning",
   },
 ]
 
 export function InstagramFeed() {
   return (
-    <section className="py-16 bg-secondary/30">
+    <section className="py-20 bg-secondary/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-12">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 flex items-center justify-center">
               <Instagram className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-foreground">@staylux</h2>
-              <p className="text-muted-foreground text-sm">Follow us for travel inspiration</p>
+              <h2 className="text-xl font-serif font-light text-foreground">@gokulamstays</h2>
+              <p className="text-muted-foreground text-sm">Follow us for Mysuru moments</p>
             </div>
           </div>
           <a
-            href="https://instagram.com/staylux"
+            href="https://instagram.com/gokulamstays"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-2.5 border border-foreground/20 rounded-full font-medium text-foreground hover:bg-foreground hover:text-background transition-colors"
+            className="px-6 py-2.5 border border-foreground/20 rounded-full font-medium text-sm text-foreground hover:bg-foreground hover:text-background transition-colors"
           >
             Follow on Instagram
           </a>
@@ -78,7 +78,7 @@ export function InstagramFeed() {
           {instagramPosts.map((post) => (
             <a
               key={post.id}
-              href="https://instagram.com/staylux"
+              href="https://instagram.com/gokulamstays"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative aspect-square overflow-hidden rounded-lg"
@@ -91,13 +91,13 @@ export function InstagramFeed() {
               />
               {/* Overlay */}
               <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <div className="flex items-center gap-1 text-background">
-                  <Heart className="w-5 h-5 fill-background" />
-                  <span className="font-semibold">{post.likes}</span>
+                <div className="flex items-center gap-1 text-card">
+                  <Heart className="w-5 h-5 fill-card" />
+                  <span className="font-medium">{post.likes}</span>
                 </div>
-                <div className="flex items-center gap-1 text-background">
-                  <MessageCircle className="w-5 h-5 fill-background" />
-                  <span className="font-semibold">{post.comments}</span>
+                <div className="flex items-center gap-1 text-card">
+                  <MessageCircle className="w-5 h-5 fill-card" />
+                  <span className="font-medium">{post.comments}</span>
                 </div>
               </div>
             </a>

@@ -27,140 +27,154 @@ export interface Property {
 
 export interface Landmark {
   name: string
-  type: "beach" | "restaurant" | "attraction" | "airport" | "shopping"
+  type: "railway" | "museum" | "palace" | "yoga" | "attraction"
   coordinates: { lat: number; lng: number }
   distance: string
 }
 
+// Gokulam, Mysuru center coordinates
+const GOKULAM_CENTER = { lat: 12.3252, lng: 76.6402 }
+
 export const properties: Property[] = [
   {
     id: "1",
-    name: "Seaside Villa Retreat",
-    slug: "seaside-villa-retreat",
-    description: "Experience luxury beachfront living at its finest. This stunning villa offers panoramic ocean views, a private pool, and direct beach access. Perfect for families or groups seeking an unforgettable coastal escape. The open-plan living area flows seamlessly to the outdoor terrace, creating the perfect space for entertaining or relaxing with loved ones.",
-    shortDescription: "Beachfront luxury with private pool and stunning ocean views",
-    location: "Malibu, California",
-    coordinates: { lat: 34.0259, lng: -118.7798 },
+    name: "Serene Garden Homestay",
+    slug: "serene-garden-homestay",
+    description: "A peaceful retreat in the heart of Gokulam, surrounded by lush greenery and flowering plants. This clean and comfortable homestay offers a perfect blend of traditional Mysuru hospitality and modern amenities. Wake up to the sounds of birds and enjoy your morning chai in our beautiful garden. Ideal for yoga practitioners and those seeking a quiet, rejuvenating stay.",
+    shortDescription: "Peaceful garden homestay with traditional Mysuru hospitality",
+    location: "Gokulam, Mysuru",
+    coordinates: { lat: 12.3262, lng: 76.6412 },
     images: [
-      "/properties/villa-1.jpg",
-      "/properties/villa-1-interior.jpg",
-      "/properties/villa-1-pool.jpg",
-      "/properties/villa-1-bedroom.jpg",
+      "/properties/homestay-1.jpg",
+      "/properties/homestay-1-room.jpg",
+      "/properties/homestay-1-garden.jpg",
+      "/properties/homestay-1-dining.jpg",
     ],
-    amenities: ["Private Pool", "Beach Access", "WiFi", "Air Conditioning", "Full Kitchen", "Washer/Dryer", "Parking", "BBQ Grill", "Ocean View", "Smart TV", "Hot Tub", "Outdoor Shower"],
-    bedrooms: 4,
-    bathrooms: 3,
-    maxGuests: 8,
-    pricing: {
-      basePrice: 450,
-      weekendPrice: 550,
-      seasonalPricing: [
-        { season: "Summer", startMonth: 6, endMonth: 8, price: 650 },
-        { season: "Winter Holidays", startMonth: 12, endMonth: 12, price: 700 },
-      ],
-    },
-    rating: 4.9,
-    reviewCount: 127,
-  },
-  {
-    id: "2",
-    name: "Mountain View Chalet",
-    slug: "mountain-view-chalet",
-    description: "Nestled in the heart of the mountains, this charming chalet offers the perfect blend of rustic elegance and modern comfort. Wake up to breathtaking mountain views, enjoy cozy evenings by the fireplace, and explore nearby hiking trails. Ideal for nature lovers and adventure seekers alike.",
-    shortDescription: "Rustic mountain retreat with fireplace and scenic trails",
-    location: "Aspen, Colorado",
-    coordinates: { lat: 39.1911, lng: -106.8175 },
-    images: [
-      "/properties/chalet-1.jpg",
-      "/properties/chalet-1-interior.jpg",
-      "/properties/chalet-1-view.jpg",
-      "/properties/chalet-1-bedroom.jpg",
-    ],
-    amenities: ["Fireplace", "Mountain View", "WiFi", "Heating", "Full Kitchen", "Ski Storage", "Parking", "Deck", "Hiking Access", "Smart TV", "Hot Tub", "Game Room"],
-    bedrooms: 3,
-    bathrooms: 2,
-    maxGuests: 6,
-    pricing: {
-      basePrice: 350,
-      weekendPrice: 420,
-      seasonalPricing: [
-        { season: "Ski Season", startMonth: 12, endMonth: 3, price: 550 },
-        { season: "Fall Colors", startMonth: 9, endMonth: 10, price: 400 },
-      ],
-    },
-    rating: 4.8,
-    reviewCount: 89,
-  },
-  {
-    id: "3",
-    name: "Urban Luxury Penthouse",
-    slug: "urban-luxury-penthouse",
-    description: "Experience city living at its finest in this sophisticated penthouse apartment. Floor-to-ceiling windows offer stunning skyline views, while the modern interior provides all the comforts of home. Located in the heart of downtown, you'll be steps away from world-class dining, shopping, and entertainment.",
-    shortDescription: "Stunning skyline views in the heart of downtown",
-    location: "New York City, NY",
-    coordinates: { lat: 40.7580, lng: -73.9855 },
-    images: [
-      "/properties/penthouse-1.jpg",
-      "/properties/penthouse-1-living.jpg",
-      "/properties/penthouse-1-view.jpg",
-      "/properties/penthouse-1-bedroom.jpg",
-    ],
-    amenities: ["City View", "Rooftop Access", "WiFi", "Air Conditioning", "Full Kitchen", "Gym Access", "Doorman", "Elevator", "Smart Home", "Smart TV", "Wine Fridge", "Workspace"],
+    amenities: ["Garden View", "Free WiFi", "Hot Water", "Home-cooked Meals", "Yoga Space", "Parking", "Daily Cleaning", "Filtered Water", "Fan/AC", "Laundry Service", "Airport Pickup", "Local Guide"],
     bedrooms: 2,
     bathrooms: 2,
     maxGuests: 4,
     pricing: {
-      basePrice: 500,
-      weekendPrice: 600,
+      basePrice: 1800,
+      weekendPrice: 2200,
       seasonalPricing: [
-        { season: "New Year", startMonth: 12, endMonth: 1, price: 800 },
-        { season: "Summer", startMonth: 6, endMonth: 8, price: 550 },
+        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 3000 },
+        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 2500 },
+      ],
+    },
+    rating: 4.8,
+    reviewCount: 87,
+  },
+  {
+    id: "2",
+    name: "Cozy Corner Homestay",
+    slug: "cozy-corner-homestay",
+    description: "Located in a quiet residential area of Gokulam, this charming homestay offers a homely atmosphere with all modern comforts. The rooms are well-ventilated with natural light, and our hosts ensure a warm, welcoming experience. Perfect for solo travelers, couples, or small families looking for an authentic Mysuru experience. Walking distance to popular yoga shalas and local eateries.",
+    shortDescription: "Homely comfort in a quiet Gokulam neighborhood",
+    location: "Gokulam, Mysuru",
+    coordinates: { lat: 12.3245, lng: 76.6395 },
+    images: [
+      "/properties/homestay-2.jpg",
+      "/properties/homestay-2-room.jpg",
+      "/properties/homestay-2-balcony.jpg",
+      "/properties/homestay-2-living.jpg",
+    ],
+    amenities: ["Balcony", "Free WiFi", "Hot Water", "Breakfast Included", "Ceiling Fan", "Parking", "Daily Cleaning", "Filtered Water", "Mosquito Net", "Book Library", "Tea/Coffee Maker", "Bicycle Rental"],
+    bedrooms: 1,
+    bathrooms: 1,
+    maxGuests: 2,
+    pricing: {
+      basePrice: 1200,
+      weekendPrice: 1500,
+      seasonalPricing: [
+        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 2000 },
+        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 1800 },
       ],
     },
     rating: 4.7,
+    reviewCount: 124,
+  },
+  {
+    id: "3",
+    name: "Heritage House Homestay",
+    slug: "heritage-house-homestay",
+    description: "Experience the charm of old Mysuru in this beautifully maintained heritage home. With traditional architecture, antique furniture, and a peaceful courtyard, this homestay transports you to a simpler time while providing modern comforts. Our family has been welcoming guests for over 30 years, sharing stories of Mysuru's rich culture and history.",
+    shortDescription: "Traditional heritage home with authentic Mysuru character",
+    location: "Gokulam, Mysuru",
+    coordinates: { lat: 12.3270, lng: 76.6420 },
+    images: [
+      "/properties/homestay-3.jpg",
+      "/properties/homestay-3-courtyard.jpg",
+      "/properties/homestay-3-room.jpg",
+      "/properties/homestay-3-dining.jpg",
+    ],
+    amenities: ["Heritage Architecture", "Courtyard", "Free WiFi", "Hot Water", "Traditional Breakfast", "Parking", "Daily Cleaning", "Filtered Water", "AC Available", "Cultural Tours", "Cooking Classes", "Yoga Arrangements"],
+    bedrooms: 3,
+    bathrooms: 2,
+    maxGuests: 6,
+    pricing: {
+      basePrice: 2500,
+      weekendPrice: 3000,
+      seasonalPricing: [
+        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 4000 },
+        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 3500 },
+      ],
+    },
+    rating: 4.9,
     reviewCount: 156,
   },
   {
     id: "4",
-    name: "Tropical Paradise Villa",
-    slug: "tropical-paradise-villa",
-    description: "Escape to paradise in this stunning tropical villa surrounded by lush gardens and swaying palms. Features an infinity pool overlooking the ocean, outdoor dining areas, and spacious interiors designed for relaxation. Perfect for a romantic getaway or family vacation in the sun.",
-    shortDescription: "Tropical escape with infinity pool and ocean views",
-    location: "Maui, Hawaii",
-    coordinates: { lat: 20.7984, lng: -156.3319 },
+    name: "Peaceful Nest Homestay",
+    slug: "peaceful-nest-homestay",
+    description: "A modern, clean homestay designed for comfort and tranquility. Located on a quiet street in Gokulam, this property offers spacious rooms with contemporary amenities while maintaining a warm, homely feel. The rooftop terrace provides beautiful views of Chamundi Hills. Perfect for extended stays, especially for yoga students and digital nomads.",
+    shortDescription: "Modern comfort with rooftop views of Chamundi Hills",
+    location: "Gokulam, Mysuru",
+    coordinates: { lat: 12.3235, lng: 76.6388 },
     images: [
-      "/properties/tropical-1.jpg",
-      "/properties/tropical-1-pool.jpg",
-      "/properties/tropical-1-garden.jpg",
-      "/properties/tropical-1-bedroom.jpg",
+      "/properties/homestay-4.jpg",
+      "/properties/homestay-4-room.jpg",
+      "/properties/homestay-4-terrace.jpg",
+      "/properties/homestay-4-kitchen.jpg",
     ],
-    amenities: ["Infinity Pool", "Ocean View", "WiFi", "Air Conditioning", "Full Kitchen", "Outdoor Dining", "Parking", "BBQ", "Garden", "Smart TV", "Beach Equipment", "Yoga Deck"],
-    bedrooms: 5,
-    bathrooms: 4,
-    maxGuests: 10,
+    amenities: ["Rooftop Terrace", "Hill View", "Free WiFi", "Hot Water", "Kitchenette", "Workspace", "Parking", "Daily Cleaning", "AC", "Washing Machine", "Long-stay Discount", "Yoga Mat Provided"],
+    bedrooms: 2,
+    bathrooms: 2,
+    maxGuests: 4,
     pricing: {
-      basePrice: 600,
-      weekendPrice: 700,
+      basePrice: 2000,
+      weekendPrice: 2400,
       seasonalPricing: [
-        { season: "Peak Season", startMonth: 12, endMonth: 3, price: 850 },
-        { season: "Summer", startMonth: 6, endMonth: 8, price: 750 },
+        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 3200 },
+        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 2800 },
       ],
     },
-    rating: 4.9,
-    reviewCount: 203,
+    rating: 4.8,
+    reviewCount: 98,
   },
 ]
 
 export const landmarks: Landmark[] = [
-  { name: "Malibu Beach", type: "beach", coordinates: { lat: 34.0329, lng: -118.7856 }, distance: "0.5 miles" },
-  { name: "Nobu Malibu", type: "restaurant", coordinates: { lat: 34.0362, lng: -118.7823 }, distance: "2 miles" },
-  { name: "Santa Monica Pier", type: "attraction", coordinates: { lat: 34.0093, lng: -118.4960 }, distance: "15 miles" },
-  { name: "LAX Airport", type: "airport", coordinates: { lat: 33.9425, lng: -118.4081 }, distance: "25 miles" },
-  { name: "Malibu Country Mart", type: "shopping", coordinates: { lat: 34.0317, lng: -118.6804 }, distance: "5 miles" },
+  { name: "Mysuru Railway Station", type: "railway", coordinates: { lat: 12.2958, lng: 76.6394 }, distance: "2 km" },
+  { name: "Mysore Rail Museum", type: "museum", coordinates: { lat: 12.3050, lng: 76.6380 }, distance: "2 km" },
+  { name: "Mysuru Palace", type: "palace", coordinates: { lat: 12.3052, lng: 76.6552 }, distance: "4 km" },
+  { name: "Yoga Center (KPJAYI)", type: "yoga", coordinates: { lat: 12.3260, lng: 76.6400 }, distance: "0.5 km" },
+  { name: "Chamundi Hills", type: "attraction", coordinates: { lat: 12.2724, lng: 76.6701 }, distance: "8 km" },
 ]
+
+export const WHATSAPP_NUMBER = "919876543210" // Replace with actual number
 
 export function getPropertyBySlug(slug: string): Property | undefined {
   return properties.find((p) => p.slug === slug)
+}
+
+export function formatPrice(price: number): string {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price)
 }
 
 export function getCurrentPrice(property: Property): number {
@@ -176,7 +190,7 @@ export function getCurrentPrice(property: Property): number {
         return seasonal.price
       }
     } else {
-      // Handle seasons that span year end (e.g., Dec to Jan)
+      // Handle seasons that span year end (e.g., Dec to Feb)
       if (currentMonth >= seasonal.startMonth || currentMonth <= seasonal.endMonth) {
         return seasonal.price
       }

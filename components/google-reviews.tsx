@@ -6,51 +6,51 @@ import { Card, CardContent } from "@/components/ui/card"
 const reviews = [
   {
     id: 1,
-    author: "Sarah M.",
-    avatar: "SM",
+    author: "Priya S.",
+    avatar: "PS",
     rating: 5,
     date: "2 weeks ago",
-    text: "Absolutely stunning property! The villa exceeded all our expectations. The ocean views were breathtaking and the amenities were top-notch. Will definitely be booking again!",
-    property: "Seaside Villa Retreat",
+    text: "Wonderful homestay! The hosts were incredibly warm and the breakfast was delicious - authentic South Indian food. Perfect location for my yoga course at KPJAYI. Will definitely come back!",
+    property: "Serene Garden Homestay",
   },
   {
     id: 2,
-    author: "James P.",
-    avatar: "JP",
+    author: "Thomas K.",
+    avatar: "TK",
     rating: 5,
     date: "1 month ago",
-    text: "Perfect mountain getaway. The chalet was immaculate and had everything we needed. The fireplace made our evenings so cozy. Highly recommend for ski trips!",
-    property: "Mountain View Chalet",
+    text: "Clean, peaceful, and exactly what I needed for my Mysuru trip. The garden is beautiful for morning meditation. Walking distance to yoga center and local restaurants. Highly recommend!",
+    property: "Cozy Corner Homestay",
   },
   {
     id: 3,
-    author: "Emily R.",
-    avatar: "ER",
+    author: "Maria G.",
+    avatar: "MG",
     rating: 5,
     date: "3 weeks ago",
-    text: "The penthouse was incredible! Amazing city views and the location couldn't be better. The staff was incredibly responsive via WhatsApp. A truly luxurious experience.",
-    property: "Urban Luxury Penthouse",
+    text: "The heritage house is stunning! Felt like stepping back in time with all the traditional architecture. The family made us feel so welcome. Amazing experience of authentic Mysuru hospitality.",
+    property: "Heritage House Homestay",
   },
   {
     id: 4,
-    author: "Michael L.",
-    avatar: "ML",
+    author: "Ravi M.",
+    avatar: "RM",
     rating: 5,
     date: "1 week ago",
-    text: "Our family had the best vacation ever at the tropical villa. The infinity pool was a hit with the kids, and the beach equipment provided was so convenient!",
-    property: "Tropical Paradise Villa",
+    text: "Perfect place for a quiet getaway. The rooftop has amazing views of Chamundi Hills. Very clean rooms with all modern amenities. Easy to visit Mysuru Palace from here. Great value!",
+    property: "Peaceful Nest Homestay",
   },
 ]
 
 export function GoogleReviews() {
-  const averageRating = 4.9
-  const totalReviews = 575
+  const averageRating = 4.8
+  const totalReviews = 465
 
   return (
-    <section id="reviews" className="py-16 bg-background">
+    <section id="reviews" className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with Google Branding */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <svg viewBox="0 0 24 24" className="w-8 h-8">
@@ -59,7 +59,7 @@ export function GoogleReviews() {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
-              <h2 className="text-2xl font-bold text-foreground">Google Reviews</h2>
+              <h2 className="text-2xl font-serif font-light text-foreground">Google Reviews</h2>
             </div>
             <div className="flex items-center gap-2">
               <div className="flex">
@@ -68,21 +68,21 @@ export function GoogleReviews() {
                     key={star}
                     className={`w-5 h-5 ${
                       star <= Math.round(averageRating)
-                        ? "fill-accent text-accent"
+                        ? "fill-amber-500 text-amber-500"
                         : "fill-muted text-muted"
                     }`}
                   />
                 ))}
               </div>
-              <span className="font-bold text-lg text-foreground">{averageRating}</span>
+              <span className="font-semibold text-lg text-foreground">{averageRating}</span>
               <span className="text-muted-foreground">({totalReviews} reviews)</span>
             </div>
           </div>
           <a
-            href="https://g.page/r/your-google-business"
+            href="https://g.page/r/gokulamstays"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:underline font-medium"
+            className="text-primary hover:underline font-medium text-sm"
           >
             See all reviews on Google
           </a>
@@ -91,14 +91,14 @@ export function GoogleReviews() {
         {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {reviews.map((review) => (
-            <Card key={review.id} className="bg-card border-border hover:shadow-md transition-shadow">
+            <Card key={review.id} className="bg-card border-border hover:shadow-lg transition-shadow">
               <CardContent className="p-5">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium">
                     {review.avatar}
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">{review.author}</p>
+                    <p className="font-medium text-foreground">{review.author}</p>
                     <p className="text-xs text-muted-foreground">{review.date}</p>
                   </div>
                 </div>
@@ -108,13 +108,13 @@ export function GoogleReviews() {
                       key={star}
                       className={`w-4 h-4 ${
                         star <= review.rating
-                          ? "fill-accent text-accent"
+                          ? "fill-amber-500 text-amber-500"
                           : "fill-muted text-muted"
                       }`}
                     />
                   ))}
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-4 mb-2">
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-4 mb-3">
                   {review.text}
                 </p>
                 <p className="text-xs text-primary font-medium">{review.property}</p>

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { ChevronLeft, ChevronRight, Star, Bed, Bath, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Property, getCurrentPrice, getPriceLabel } from "@/lib/properties"
+import { Property, getCurrentPrice, getPriceLabel, formatPrice } from "@/lib/properties"
 
 interface PropertyCardProps {
   property: Property
@@ -31,7 +31,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/property/${property.slug}`}>
-      <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-lg transition-shadow duration-300 bg-card">
+      <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-300 bg-card">
         <div className="relative aspect-[4/3] overflow-hidden">
           <Image
             src={property.images[currentImage]}
@@ -48,14 +48,14 @@ export function PropertyCard({ property }: PropertyCardProps) {
                 className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-card/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-card"
                 aria-label="Previous image"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5 text-foreground" />
               </button>
               <button
                 onClick={nextImage}
                 className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-card/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-card"
                 aria-label="Next image"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-5 h-5 text-foreground" />
               </button>
             </>
           )}
@@ -73,44 +73,39 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </div>
 
           {/* Price Badge */}
-          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground px-3 py-1">
+          <Badge className="absolute top-3 right-3 bg-accent text-accent-foreground px-2.5 py-1 text-xs">
             {priceLabel}
           </Badge>
         </div>
 
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <h3 className="font-semibold text-lg text-foreground line-clamp-1">{property.name}</h3>
+            <h3 className="font-medium text-foreground line-clamp-1">{property.name}</h3>
             <div className="flex items-center gap-1 shrink-0">
-              <Star className="w-4 h-4 fill-accent text-accent" />
+              <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
               <span className="font-medium text-sm text-foreground">{property.rating}</span>
-              <span className="text-muted-foreground text-sm">({property.reviewCount})</span>
             </div>
           </div>
 
           <p className="text-muted-foreground text-sm mb-3">{property.location}</p>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3">
             <div className="flex items-center gap-1">
-              <Bed className="w-4 h-4" />
+              <Bed className="w-3.5 h-3.5" />
               <span>{property.bedrooms}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Bath className="w-4 h-4" />
+              <Bath className="w-3.5 h-3.5" />
               <span>{property.bathrooms}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Users className="w-4 h-4" />
+              <Users className="w-3.5 h-3.5" />
               <span>{property.maxGuests}</span>
             </div>
           </div>
 
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-            {property.shortDescription}
-          </p>
-
-          <div className="flex items-baseline gap-1">
-            <span className="text-xl font-bold text-foreground">${currentPrice}</span>
+          <div className="flex items-baseline gap-1 pt-2 border-t border-border">
+            <span className="text-lg font-semibold text-foreground">{formatPrice(currentPrice)}</span>
             <span className="text-muted-foreground text-sm">/ night</span>
           </div>
         </CardContent>

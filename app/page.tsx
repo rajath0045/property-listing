@@ -1,4 +1,5 @@
 import { Header } from "@/components/header"
+import { Hero } from "@/components/hero"
 import { Footer } from "@/components/footer"
 import { PropertyCard } from "@/components/property-card"
 import { PropertyMap } from "@/components/property-map"
@@ -6,7 +7,6 @@ import { GoogleReviews } from "@/components/google-reviews"
 import { InstagramFeed } from "@/components/instagram-feed"
 import { ContactSection } from "@/components/contact-section"
 import { properties } from "@/lib/properties"
-import { Search } from "lucide-react"
 
 export default function HomePage() {
   return (
@@ -14,49 +14,23 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-primary py-20 md:py-28">
-        <div className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-10" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 text-balance">
-            Find Your Perfect Getaway
-          </h1>
-          <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-8 text-pretty">
-            Discover handpicked luxury vacation rentals. From beachfront villas to mountain retreats, 
-            your dream stay awaits.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#properties"
-              className="inline-flex items-center justify-center px-8 py-4 bg-card text-foreground font-semibold rounded-full hover:bg-card/90 transition-colors shadow-lg"
-            >
-              <Search className="w-5 h-5 mr-2" />
-              Browse Properties
-            </a>
-            <a 
-              href="https://wa.me/1234567890"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 bg-primary-foreground/10 text-primary-foreground font-semibold rounded-full hover:bg-primary-foreground/20 transition-colors border border-primary-foreground/30"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Properties Grid */}
-      <section id="properties" className="py-16 bg-background">
+      <section id="properties" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
-            <div>
-              <h2 className="text-3xl font-bold text-foreground mb-2">Our Properties</h2>
-              <p className="text-muted-foreground">
-                {properties.length} stunning properties available for your next adventure
-              </p>
-            </div>
+          <div className="text-center mb-14">
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">Our Collection</p>
+            <h2 className="text-3xl sm:text-4xl font-serif font-light text-foreground mb-4 text-balance">
+              Comfortable Homestays in Gokulam
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
+              Each of our properties offers clean rooms, warm hospitality, and easy access 
+              to yoga centers, local attractions, and authentic Mysuru experiences.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
@@ -65,12 +39,16 @@ export default function HomePage() {
       </section>
 
       {/* Map Section */}
-      <section className="py-16 bg-secondary/30">
+      <section className="py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Explore Locations</h2>
-            <p className="text-muted-foreground">
-              Discover our properties and nearby attractions on the map
+          <div className="text-center mb-14">
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">Location</p>
+            <h2 className="text-3xl sm:text-4xl font-serif font-light text-foreground mb-4">
+              Explore Gokulam, Mysuru
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Our homestays are centrally located with easy access to railway station, 
+              Mysuru Palace, yoga centers, and other popular landmarks.
             </p>
           </div>
           <PropertyMap showAllProperties />

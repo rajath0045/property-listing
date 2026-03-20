@@ -1,33 +1,38 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { MapPin, Home, Plane, UtensilsCrossed, ShoppingBag, Palmtree } from "lucide-react"
+import { MapPin, Home, Train, Building, Landmark, Dumbbell } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { properties, landmarks, Property, Landmark } from "@/lib/properties"
+import { properties, landmarks, Property, Landmark as LandmarkType, formatPrice } from "@/lib/properties"
 
 interface PropertyMapProps {
   highlightedPropertyId?: string
   showAllProperties?: boolean
 }
 
-const landmarkIcons: Record<Landmark["type"], React.ReactNode> = {
-  beach: <Palmtree className="w-4 h-4" />,
-  restaurant: <UtensilsCrossed className="w-4 h-4" />,
+const landmarkIcons: Record<LandmarkType["type"], React.ReactNode> = {
+  railway: <Train className="w-4 h-4" />,
+  museum: <Building className="w-4 h-4" />,
+  palace: <Landmark className="w-4 h-4" />,
+  yoga: <Dumbbell className="w-4 h-4" />,
   attraction: <MapPin className="w-4 h-4" />,
-  airport: <Plane className="w-4 h-4" />,
-  shopping: <ShoppingBag className="w-4 h-4" />,
+}
+
+const landmarkColors: Record<LandmarkType["type"], string> = {
+  railway: "bg-blue-100 text-blue-700",
+  museum: "bg-amber-100 text-amber-700",
+  palace: "bg-rose-100 text-rose-700",
+  yoga: "bg-green-100 text-green-700",
+  attraction: "bg-purple-100 text-purple-700",
 }
 
 export function PropertyMap({ highlightedPropertyId, showAllProperties = true }: PropertyMapProps) {
-  const mapRef = useRef<HTMLDivElement>(null)
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(
     highlightedPropertyId ? properties.find(p => p.id === highlightedPropertyId) || null : null
   )
-  const [mapError, setMapError] = useState(false)
 
-  // This is a visual representation - in production, you'd integrate with Google Maps API
   const displayProperties = showAllProperties 
     ? properties 
     : highlightedPropertyId 
@@ -35,36 +40,40 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
       : properties
 
   return (
-    <div className="bg-card rounded-xl overflow-hidden border border-border">
+    <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm">
       {/* Map Header */}
       <div className="p-4 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <MapPin className="w-5 h-5 text-primary" />
-          <h3 className="font-semibold text-foreground">Explore Our Properties</h3>
+          <h3 className="font-medium text-foreground">Gokulam, Mysuru</h3>
         </div>
         <Badge variant="secondary" className="text-xs">
-          {displayProperties.length} Properties
+          {displayProperties.length} Homestays
         </Badge>
       </div>
 
       {/* Map Visualization */}
       <div 
-        ref={mapRef}
-        className="relative h-[400px] bg-secondary/20 overflow-hidden"
+        className="relative h-[400px] bg-secondary/30 overflow-hidden"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23${typeof window !== 'undefined' && document.documentElement.classList.contains('dark') ? '333' : 'ddd'}' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23e5e5e0' stroke-width='1' fill='none'/%3E%3C/svg%3E")`,
         }}
       >
+        {/* Gokulam Area Label */}
+        <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Area</p>
+          <p className="font-medium text-foreground text-sm">Gokulam, Mysuru</p>
+        </div>
+
         {/* Property Markers */}
         {displayProperties.map((property, index) => {
           const isHighlighted = property.id === highlightedPropertyId
           const isSelected = selectedProperty?.id === property.id
-          // Position markers in a visually appealing layout
           const positions = [
-            { top: "20%", left: "30%" },
-            { top: "35%", left: "70%" },
-            { top: "60%", left: "25%" },
-            { top: "45%", left: "55%" },
+            { top: "35%", left: "45%" },
+            { top: "45%", left: "30%" },
+            { top: "30%", left: "60%" },
+            { top: "55%", left: "55%" },
           ]
           const pos = positions[index % positions.length]
 
@@ -72,51 +81,51 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
             <button
               key={property.id}
               className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 z-10 ${
-                isHighlighted || isSelected ? "scale-125 z-20" : "hover:scale-110"
+                isHighlighted || isSelected ? "scale-110 z-20" : "hover:scale-105"
               }`}
               style={{ top: pos.top, left: pos.left }}
               onClick={() => setSelectedProperty(property)}
             >
               <div
-                className={`flex items-center gap-2 px-3 py-2 rounded-full shadow-lg ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg shadow-md ${
                   isHighlighted || isSelected
                     ? "bg-primary text-primary-foreground"
                     : "bg-card text-foreground hover:bg-primary hover:text-primary-foreground"
-                } transition-colors`}
+                } transition-colors border border-border`}
               >
                 <Home className="w-4 h-4" />
-                <span className="font-semibold text-sm whitespace-nowrap">
-                  ${property.pricing.basePrice}
+                <span className="font-medium text-sm whitespace-nowrap">
+                  {formatPrice(property.pricing.basePrice)}
                 </span>
               </div>
-              {/* Pin */}
-              <div
-                className={`w-3 h-3 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2 ${
-                  isHighlighted || isSelected ? "bg-primary" : "bg-card"
-                }`}
-              />
             </button>
           )
         })}
 
         {/* Landmark Markers */}
-        {landmarks.slice(0, 3).map((landmark, index) => {
+        {landmarks.map((landmark, index) => {
           const positions = [
-            { top: "75%", left: "40%" },
-            { top: "15%", left: "60%" },
-            { top: "80%", left: "75%" },
+            { top: "80%", left: "50%" },  // Railway Station
+            { top: "75%", left: "35%" },  // Rail Museum
+            { top: "85%", left: "70%" },  // Palace
+            { top: "40%", left: "48%" },  // Yoga Center
+            { top: "90%", left: "80%" },  // Chamundi Hills
           ]
           const pos = positions[index % positions.length]
 
           return (
             <div
               key={landmark.name}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 z-0"
+              className="absolute transform -translate-x-1/2 -translate-y-1/2 z-0 group"
               style={{ top: pos.top, left: pos.left }}
-              title={landmark.name}
             >
-              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-sm ${landmarkColors[landmark.type]}`}>
                 {landmarkIcons[landmark.type]}
+              </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                <div className="bg-foreground text-card text-xs px-2 py-1 rounded whitespace-nowrap">
+                  {landmark.name}
+                </div>
               </div>
             </div>
           )
@@ -128,10 +137,10 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
             <Card className="bg-card border-border shadow-xl">
               <CardContent className="p-4">
                 <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-semibold text-foreground">{selectedProperty.name}</h4>
+                  <h4 className="font-medium text-foreground">{selectedProperty.name}</h4>
                   <button
                     onClick={() => setSelectedProperty(null)}
-                    className="text-muted-foreground hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground text-xl leading-none"
                     aria-label="Close"
                   >
                     &times;
@@ -140,8 +149,8 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
                 <p className="text-sm text-muted-foreground mb-3">{selectedProperty.location}</p>
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-lg font-bold text-foreground">
-                      ${selectedProperty.pricing.basePrice}
+                    <span className="text-lg font-semibold text-foreground">
+                      {formatPrice(selectedProperty.pricing.basePrice)}
                     </span>
                     <span className="text-muted-foreground text-sm"> / night</span>
                   </div>
@@ -160,16 +169,18 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
 
       {/* Landmarks List */}
       <div className="p-4 border-t border-border">
-        <h4 className="text-sm font-medium text-muted-foreground mb-3">Nearby Landmarks</h4>
+        <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">Nearby Landmarks</h4>
         <div className="flex flex-wrap gap-2">
           {landmarks.map((landmark) => (
             <div
               key={landmark.name}
-              className="flex items-center gap-2 px-3 py-1.5 bg-secondary/50 rounded-full text-sm"
+              className="flex items-center gap-2 px-3 py-2 bg-secondary/50 rounded-lg text-sm"
             >
-              <span className="text-muted-foreground">{landmarkIcons[landmark.type]}</span>
+              <span className={`w-6 h-6 rounded-full flex items-center justify-center ${landmarkColors[landmark.type]}`}>
+                {landmarkIcons[landmark.type]}
+              </span>
               <span className="text-foreground">{landmark.name}</span>
-              <span className="text-muted-foreground">({landmark.distance})</span>
+              <span className="text-muted-foreground text-xs">({landmark.distance})</span>
             </div>
           ))}
         </div>

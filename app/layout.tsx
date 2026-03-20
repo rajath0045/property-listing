@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'StayLux | Luxury Vacation Rentals',
-  description: 'Discover handpicked luxury vacation rentals. From beachfront villas to mountain retreats, find your perfect getaway with StayLux.',
+  title: 'Gokulam Stays | Homestays in Mysuru',
+  description: 'Clean, comfortable homestays in Gokulam, Mysuru. Perfect for yoga enthusiasts and travelers seeking authentic experiences with warm Indian hospitality.',
   generator: 'v0.app',
   icons: {
     icon: [
