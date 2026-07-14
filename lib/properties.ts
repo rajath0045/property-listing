@@ -7,8 +7,10 @@ export interface Property {
   location: string
   coordinates: { lat: number; lng: number }
   images: string[]
+  imageCategories: { name: string; images: string[] }[]
   amenities: string[]
   bedrooms: number
+  beds: number
   bathrooms: number
   maxGuests: number
   pricing: {
@@ -38,20 +40,42 @@ const GOKULAM_CENTER = { lat: 12.3252, lng: 76.6402 }
 export const properties: Property[] = [
   {
     id: "1",
-    name: "Serene Garden Homestay",
+    name: "Peaceful Oasis House",
     slug: "serene-garden-homestay",
-    description: "A peaceful retreat in the heart of Gokulam, surrounded by lush greenery and flowering plants. This clean and comfortable homestay offers a perfect blend of traditional Mysuru hospitality and modern amenities. Wake up to the sounds of birds and enjoy your morning chai in our beautiful garden. Ideal for yoga practitioners and those seeking a quiet, rejuvenating stay.",
-    shortDescription: "Peaceful garden homestay with traditional Mysuru hospitality",
+    description: "Take a break and unwind at this peaceful oasis. It is a brand new ground floor house featuring 2 rooms, one attached bathroom, and one general bathroom. Centrally located, it is close to the Railway Station, Palace, GRS, and other tourist spots, as well as all yoga shalas in Gokulam. Couples are allowed. The property boasts uninterrupted power supply (UPS), 24/7 water, and internet. Includes a fully equipped kitchen (fridge, washing machine, gas stove) and car parking right in front of the house.",
+    shortDescription: "Brand new ground floor 2BR house centrally located near all major tourist spots and yoga shalas.",
     location: "Gokulam, Mysuru",
     coordinates: { lat: 12.3262, lng: 76.6412 },
     images: [
-      "/properties/homestay-1.jpg",
-      "/properties/homestay-1-room.jpg",
-      "/properties/homestay-1-garden.jpg",
-      "/properties/homestay-1-dining.jpg",
+      "/properties/house362/1000929609.jpg",
+      "/properties/house362/1000929613.jpg",
+      "/properties/house362/1000929614.jpg",
+      "/properties/house362/1000929615.jpg",
+      "/properties/house362/1000929617.jpg",
+      "/properties/house362/1000929618.jpg",
+      "/properties/house362/1000929620.jpg",
     ],
-    amenities: ["Garden View", "Free WiFi", "Hot Water", "Home-cooked Meals", "Yoga Space", "Parking", "Daily Cleaning", "Filtered Water", "Fan/AC", "Laundry Service", "Airport Pickup", "Local Guide"],
+    imageCategories: [
+      {
+        name: "Living room",
+        images: ["/properties/house362/1000929609.jpg", "/properties/house362/1000929613.jpg"],
+      },
+      {
+        name: "Full kitchen",
+        images: ["/properties/house362/1000929614.jpg", "/properties/house362/1000929615.jpg"],
+      },
+      {
+        name: "Bedroom",
+        images: ["/properties/house362/1000929617.jpg", "/properties/house362/1000929618.jpg"],
+      },
+      {
+        name: "Bathroom",
+        images: ["/properties/house362/1000929620.jpg"],
+      }
+    ],
+    amenities: ["Wifi", "Kitchen", "Hot water", "Shower gel", "Free washer", "Bed linen", "Iron", "Wardrobe", "TV", "Cot", "Ceiling fan", "Security cameras", "Refrigerator", "Cooking basics", "Kettle", "Rice cooker", "Dining table", "Free parking", "Smoking allowed", "Long-term stays allowed", "Self check-in", "Housekeeping available", "UPS Power Backup"],
     bedrooms: 2,
+    beds: 2,
     bathrooms: 2,
     maxGuests: 4,
     pricing: {
@@ -66,92 +90,121 @@ export const properties: Property[] = [
     reviewCount: 87,
   },
   {
-    id: "2",
-    name: "Cozy Corner Homestay",
-    slug: "cozy-corner-homestay",
-    description: "Located in a quiet residential area of Gokulam, this charming homestay offers a homely atmosphere with all modern comforts. The rooms are well-ventilated with natural light, and our hosts ensure a warm, welcoming experience. Perfect for solo travelers, couples, or small families looking for an authentic Mysuru experience. Walking distance to popular yoga shalas and local eateries.",
-    shortDescription: "Homely comfort in a quiet Gokulam neighborhood",
-    location: "Gokulam, Mysuru",
-    coordinates: { lat: 12.3245, lng: 76.6395 },
+    id: "5",
+    name: "One Bedroom House - First Floor",
+    slug: "first-floor-1bhk",
+    description: "A comfortable one-bedroom house located on the first floor. Perfect for small families or couples looking for a cozy stay in Mysore. Close to local amenities and tourist attractions.",
+    shortDescription: "Cozy 1BHK first floor house in Mysore.",
+    location: "Mysuru",
+    coordinates: { lat: 12.3052, lng: 76.6552 },
     images: [
-      "/properties/homestay-2.jpg",
-      "/properties/homestay-2-room.jpg",
-      "/properties/homestay-2-balcony.jpg",
-      "/properties/homestay-2-living.jpg",
+      "/properties/firstfloor1bhk/1000480254.jpg",
+      "/properties/firstfloor1bhk/1000962447.jpg",
+      "/properties/firstfloor1bhk/1000962454.jpg",
+      "/properties/firstfloor1bhk/1000962455.jpg",
+      "/properties/firstfloor1bhk/1000962456.jpg",
+      "/properties/firstfloor1bhk/1000962457.jpg",
     ],
-    amenities: ["Balcony", "Free WiFi", "Hot Water", "Breakfast Included", "Ceiling Fan", "Parking", "Daily Cleaning", "Filtered Water", "Mosquito Net", "Book Library", "Tea/Coffee Maker", "Bicycle Rental"],
+    imageCategories: [
+      {
+        name: "Rooms",
+        images: ["/properties/firstfloor1bhk/1000480254.jpg", "/properties/firstfloor1bhk/1000962447.jpg", "/properties/firstfloor1bhk/1000962454.jpg"],
+      },
+      {
+        name: "Other",
+        images: ["/properties/firstfloor1bhk/1000962455.jpg", "/properties/firstfloor1bhk/1000962456.jpg", "/properties/firstfloor1bhk/1000962457.jpg"],
+      }
+    ],
+    amenities: ["Wifi", "Kitchen", "Hot water", "TV", "Free parking"],
     bedrooms: 1,
+    beds: 1,
     bathrooms: 1,
     maxGuests: 2,
     pricing: {
-      basePrice: 1200,
-      weekendPrice: 1500,
-      seasonalPricing: [
-        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 2000 },
-        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 1800 },
-      ],
+      basePrice: 1500,
+      weekendPrice: 1800,
+      seasonalPricing: [],
     },
-    rating: 4.7,
-    reviewCount: 124,
+    rating: 4.5,
+    reviewCount: 12,
   },
   {
-    id: "3",
-    name: "Heritage House Homestay",
-    slug: "heritage-house-homestay",
-    description: "Experience the charm of old Mysuru in this beautifully maintained heritage home. With traditional architecture, antique furniture, and a peaceful courtyard, this homestay transports you to a simpler time while providing modern comforts. Our family has been welcoming guests for over 30 years, sharing stories of Mysuru's rich culture and history.",
-    shortDescription: "Traditional heritage home with authentic Mysuru character",
+    id: "6",
+    name: "Nature's Bliss - Home in Gokulam",
+    slug: "nature-bliss-2bhk",
+    description: "Nature's Bliss- Home in Gokulam at heart of Mysore. A beautiful 2BHK stay surrounded by nature, offering a peaceful and relaxing environment. Located conveniently in Gokulam.",
+    shortDescription: "Nature's Bliss- Home in Gokulam at heart of Mysore.",
     location: "Gokulam, Mysuru",
-    coordinates: { lat: 12.3270, lng: 76.6420 },
+    coordinates: { lat: 12.3252, lng: 76.6402 },
     images: [
-      "/properties/homestay-3.jpg",
-      "/properties/homestay-3-courtyard.jpg",
-      "/properties/homestay-3-room.jpg",
-      "/properties/homestay-3-dining.jpg",
+      "/properties/naturebliss2bhk/1000071380.jpg",
+      "/properties/naturebliss2bhk/1000071383.jpg",
+      "/properties/naturebliss2bhk/1000075161.jpg",
+      "/properties/naturebliss2bhk/1000075169.jpg",
+      "/properties/naturebliss2bhk/1000075170.jpg",
+      "/properties/naturebliss2bhk/1000075171.jpg",
     ],
-    amenities: ["Heritage Architecture", "Courtyard", "Free WiFi", "Hot Water", "Traditional Breakfast", "Parking", "Daily Cleaning", "Filtered Water", "AC Available", "Cultural Tours", "Cooking Classes", "Yoga Arrangements"],
-    bedrooms: 3,
-    bathrooms: 2,
-    maxGuests: 6,
-    pricing: {
-      basePrice: 2500,
-      weekendPrice: 3000,
-      seasonalPricing: [
-        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 4000 },
-        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 3500 },
-      ],
-    },
-    rating: 4.9,
-    reviewCount: 156,
-  },
-  {
-    id: "4",
-    name: "Peaceful Nest Homestay",
-    slug: "peaceful-nest-homestay",
-    description: "A modern, clean homestay designed for comfort and tranquility. Located on a quiet street in Gokulam, this property offers spacious rooms with contemporary amenities while maintaining a warm, homely feel. The rooftop terrace provides beautiful views of Chamundi Hills. Perfect for extended stays, especially for yoga students and digital nomads.",
-    shortDescription: "Modern comfort with rooftop views of Chamundi Hills",
-    location: "Gokulam, Mysuru",
-    coordinates: { lat: 12.3235, lng: 76.6388 },
-    images: [
-      "/properties/homestay-4.jpg",
-      "/properties/homestay-4-room.jpg",
-      "/properties/homestay-4-terrace.jpg",
-      "/properties/homestay-4-kitchen.jpg",
+    imageCategories: [
+      {
+        name: "Rooms",
+        images: ["/properties/naturebliss2bhk/1000071380.jpg", "/properties/naturebliss2bhk/1000071383.jpg", "/properties/naturebliss2bhk/1000075161.jpg"],
+      },
+      {
+        name: "Other",
+        images: ["/properties/naturebliss2bhk/1000075169.jpg", "/properties/naturebliss2bhk/1000075170.jpg", "/properties/naturebliss2bhk/1000075171.jpg"],
+      }
     ],
-    amenities: ["Rooftop Terrace", "Hill View", "Free WiFi", "Hot Water", "Kitchenette", "Workspace", "Parking", "Daily Cleaning", "AC", "Washing Machine", "Long-stay Discount", "Yoga Mat Provided"],
+    amenities: ["Wifi", "Kitchen", "Hot water", "TV", "Free parking", "Balcony"],
     bedrooms: 2,
+    beds: 2,
     bathrooms: 2,
     maxGuests: 4,
     pricing: {
       basePrice: 2000,
-      weekendPrice: 2400,
-      seasonalPricing: [
-        { season: "Dasara Festival", startMonth: 9, endMonth: 10, price: 3200 },
-        { season: "Winter Season", startMonth: 12, endMonth: 2, price: 2800 },
-      ],
+      weekendPrice: 2500,
+      seasonalPricing: [],
     },
     rating: 4.8,
-    reviewCount: 98,
+    reviewCount: 34,
   },
+  {
+    id: "7",
+    name: "Ground Floor Studio Room",
+    slug: "ground-floor-studio-room",
+    description: "A convenient and comfortable ground floor studio room in Mysore. Ideal for solo travelers or couples looking for a budget-friendly and accessible stay.",
+    shortDescription: "Convenient ground floor studio room in Mysore.",
+    location: "Mysuru",
+    coordinates: { lat: 12.3052, lng: 76.6552 },
+    images: [
+      "/properties/groundfloorstudioroom/1000707120.jpg",
+      "/properties/groundfloorstudioroom/1000707121.jpg",
+      "/properties/groundfloorstudioroom/1000707124.jpg",
+      "/properties/groundfloorstudioroom/1000707140.jpg",
+      "/properties/groundfloorstudioroom/1000734830.jpg",
+    ],
+    imageCategories: [
+      {
+        name: "Rooms",
+        images: ["/properties/groundfloorstudioroom/1000707120.jpg", "/properties/groundfloorstudioroom/1000707121.jpg", "/properties/groundfloorstudioroom/1000707124.jpg"],
+      },
+      {
+        name: "Other",
+        images: ["/properties/groundfloorstudioroom/1000707140.jpg", "/properties/groundfloorstudioroom/1000734830.jpg"],
+      }
+    ],
+    amenities: ["Wifi", "Hot water", "TV", "Free parking"],
+    bedrooms: 1,
+    beds: 1,
+    bathrooms: 1,
+    maxGuests: 2,
+    pricing: {
+      basePrice: 1000,
+      weekendPrice: 1200,
+      seasonalPricing: [],
+    },
+    rating: 4.3,
+    reviewCount: 8,
+  }
 ]
 
 export const landmarks: Landmark[] = [

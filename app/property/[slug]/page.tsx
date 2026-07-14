@@ -53,7 +53,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header variant="solid" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
@@ -91,7 +91,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
         {/* Image Gallery */}
         <div className="mb-10">
-          <ImageGallery images={property.images} propertyName={property.name} />
+          <ImageGallery 
+            images={property.images} 
+            imageCategories={property.imageCategories} 
+            propertyName={property.name} 
+          />
         </div>
 
         {/* Main Content */}
@@ -101,16 +105,20 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             {/* Quick Info */}
             <div className="flex flex-wrap gap-3">
               <Badge variant="secondary" className="px-4 py-2 text-sm gap-2">
+                <Users className="w-4 h-4" />
+                {property.maxGuests} Guests
+              </Badge>
+              <Badge variant="secondary" className="px-4 py-2 text-sm gap-2">
                 <Bed className="w-4 h-4" />
                 {property.bedrooms} Bedrooms
               </Badge>
               <Badge variant="secondary" className="px-4 py-2 text-sm gap-2">
-                <Bath className="w-4 h-4" />
-                {property.bathrooms} Bathrooms
+                <Bed className="w-4 h-4" />
+                {property.beds} Beds
               </Badge>
               <Badge variant="secondary" className="px-4 py-2 text-sm gap-2">
-                <Users className="w-4 h-4" />
-                Up to {property.maxGuests} Guests
+                <Bath className="w-4 h-4" />
+                {property.bathrooms} Bathrooms
               </Badge>
             </div>
 
