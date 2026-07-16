@@ -100,11 +100,11 @@ export function PricingCard({ property }: PricingCardProps) {
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Check-in</span>
-            <span className="text-foreground">12:00 PM</span>
+            <span className="text-foreground">{property.bookingInformation?.checkIn || "12:00 PM"}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Check-out</span>
-            <span className="text-foreground">11:00 AM</span>
+            <span className="text-foreground">{property.bookingInformation?.checkOut || "11:00 AM"}</span>
           </div>
         </div>
       </CardContent>

@@ -1,15 +1,23 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
+  metadataBase: new URL('https://gokulamstays.com'),
   title: 'Gokulam Stays | Homestays in Mysuru',
   description: 'Clean, comfortable homestays in Gokulam, Mysuru. Perfect for yoga enthusiasts and travelers seeking authentic experiences with warm Indian hospitality.',
   generator: 'v0.app',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Gokulam Stays | Homestays in Mysuru',
+    description: 'Clean, comfortable homestays in Gokulam, Mysuru with easy access to yoga shalas and local attractions.',
+    url: '/',
+    siteName: 'Gokulam Stays',
+    locale: 'en_IN',
+    type: 'website',
+  },
   icons: {
     icon: [
       {

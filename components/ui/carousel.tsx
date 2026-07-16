@@ -95,12 +95,19 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
-    onSelect(api)
-    api.on('reInit', onSelect)
-    api.on('select', onSelect)
+    let cancelled = false
+    const handleSelect = (selectedApi: CarouselApi) => {
+      if (!cancelled) onSelect(selectedApi)
+    }
+
+    queueMicrotask(() => handleSelect(api))
+    api.on('reInit', handleSelect)
+    api.on('select', handleSelect)
 
     return () => {
-      api?.off('select', onSelect)
+      cancelled = true
+      api?.off('reInit', handleSelect)
+      api?.off('select', handleSelect)
     }
   }, [api, onSelect])
 

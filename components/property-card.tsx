@@ -16,6 +16,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
   const [currentImage, setCurrentImage] = useState(0)
   const currentPrice = getCurrentPrice(property)
   const priceLabel = getPriceLabel(property)
+  const indicatorCount = Math.min(property.images.length, 5)
+  const activeIndicator =
+    property.images.length <= indicatorCount
+      ? currentImage
+      : Math.round((currentImage / (property.images.length - 1)) * (indicatorCount - 1))
 
   const nextImage = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -30,7 +35,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
   }
 
   return (
-    <Link href={`/property/${property.slug}`}>
+    <Link href={`/property/${property.slug}`} className="block h-full">
       <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-300 bg-card">
         <div className="relative aspect-[4/3] overflow-hidden">
           <Image
@@ -38,6 +43,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
             alt={property.name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
           
           {/* Image Navigation */}
@@ -61,12 +67,13 @@ export function PropertyCard({ property }: PropertyCardProps) {
           )}
 
           {/* Image Indicators */}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-            {property.images.map((_, idx) => (
+          <div className="absolute bottom-3 left-1/2 flex max-w-[calc(100%-2rem)] -translate-x-1/2 gap-1.5 overflow-hidden">
+            {Array.from({ length: indicatorCount }).map((_, idx) => (
               <div
                 key={idx}
+                aria-hidden="true"
                 className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                  idx === currentImage ? "bg-card" : "bg-card/50"
+                  idx === activeIndicator ? "bg-card" : "bg-card/50"
                 }`}
               />
             ))}
