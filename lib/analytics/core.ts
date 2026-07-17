@@ -4,8 +4,6 @@ import { getSessionDurationMs, getSessionId, getVisitorStatus } from "./storage"
 import type { AnalyticsEventName, AnalyticsEventParams, AnalyticsEventOptions } from "./types"
 import { getDeviceContext, sanitizeEventParams } from "./utils"
 
-const GA_SCRIPT_ID = "gokulam-ga4-script"
-
 let gaInitialized = false
 let clarityInitialized = false
 const dedupeCache = new Map<string, number>()
@@ -33,35 +31,6 @@ export function initializeGoogleAnalytics() {
     function gtag(...args: unknown[]) {
       window.dataLayer?.push(args)
     }
-
-  window.gtag("consent", "default", {
-    ad_storage: "denied",
-    analytics_storage: "granted",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-    functionality_storage: "granted",
-    personalization_storage: "denied",
-    security_storage: "granted",
-  })
-
-  window.gtag("js", new Date())
-  window.gtag("config", analyticsConfig.gaMeasurementId, {
-    send_page_view: false,
-    anonymize_ip: true,
-    allow_google_signals: false,
-    allow_ad_personalization_signals: false,
-    cookie_flags: "SameSite=Lax;Secure",
-  })
-
-  if (!document.getElementById(GA_SCRIPT_ID)) {
-    const script = document.createElement("script")
-    script.id = GA_SCRIPT_ID
-    script.async = true
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
-      analyticsConfig.gaMeasurementId
-    )}`
-    document.head.appendChild(script)
-  }
 
   gaInitialized = true
   globalState.gaInitialized = true

@@ -43,15 +43,17 @@ export function AnalyticsRuntime({ enabled }: AnalyticsRuntimeProps) {
     const journey = appendJourney(nextPath)
     const pageContext = resetPageContext(nextPath)
 
-    trackPageView({
-      page_id: pageContext.page_id,
-      page_path: nextPath,
-      page_title: document.title,
-      page_referrer: previousPath ? `${window.location.origin}${previousPath}` : document.referrer,
-      previous_page_path: previousPagePath === nextPath ? previousJourney.at(-2) : previousPagePath,
-      journey_depth: journey.length,
-      entry_page_path: journey[0] ?? nextPath,
-    })
+    if (previousPath) {
+      trackPageView({
+        page_id: pageContext.page_id,
+        page_path: nextPath,
+        page_title: document.title,
+        page_referrer: `${window.location.origin}${previousPath}`,
+        previous_page_path: previousPagePath === nextPath ? previousJourney.at(-2) : previousPagePath,
+        journey_depth: journey.length,
+        entry_page_path: journey[0] ?? nextPath,
+      })
+    }
 
     previousPathRef.current = nextPath
   }, [enabled, routeKey, trackPageView])

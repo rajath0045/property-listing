@@ -4,8 +4,10 @@ function readPublicEnv(value: string | undefined) {
   return value?.trim() ?? ""
 }
 
+const defaultGaMeasurementId = "G-F6W88S80WS"
+
 export const analyticsConfig = {
-  gaMeasurementId: readPublicEnv(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID),
+  gaMeasurementId: readPublicEnv(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) || defaultGaMeasurementId,
   clarityProjectId: readPublicEnv(process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID),
   debugMode: readPublicEnv(process.env.NEXT_PUBLIC_ANALYTICS_DEBUG).toLowerCase() === "true",
   requireConsent: readPublicEnv(process.env.NEXT_PUBLIC_ANALYTICS_REQUIRE_CONSENT).toLowerCase() === "true",

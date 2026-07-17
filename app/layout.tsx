@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { AnalyticsProvider } from '@/providers/analytics-provider'
+import { analyticsConfig } from '@/lib/analytics/config'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -42,8 +43,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const gaMeasurementId = analyticsConfig.gaMeasurementId
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gaMeasurementId}');
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <AnalyticsProvider>{children}</AnalyticsProvider>
       </body>
