@@ -56,6 +56,9 @@ export function useTrackSection<TElement extends HTMLElement = HTMLElement>({
         ...toSectionParams(snapshot),
         page_type: pageType,
         property_slug: propertySlug,
+      }, {
+        dedupeKey: `section-enter:${snapshot.page_path}:${snapshot.section_id}:${propertyId ?? ""}`,
+        nonInteraction: true,
       })
     }
 
@@ -74,6 +77,8 @@ export function useTrackSection<TElement extends HTMLElement = HTMLElement>({
         },
         {
           transport: reason === "document_hidden" || reason === "unmount" ? "beacon" : undefined,
+          dedupeKey: `section-exit:${snapshot.page_path}:${snapshot.section_id}:${propertyId ?? ""}:${reason}`,
+          nonInteraction: true,
         }
       )
     }

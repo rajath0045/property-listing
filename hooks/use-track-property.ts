@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo } from "react"
 import { analyticsEvents } from "@/lib/analytics/config"
 import { clearCurrentProperty, setCurrentProperty } from "@/lib/analytics/state"
 import type { AnalyticsEventParams, PropertyAnalyticsContext } from "@/lib/analytics/types"
+import { getCurrentPagePath } from "@/lib/analytics/utils"
 import { useAnalytics } from "./use-analytics"
 
 interface UseTrackPropertyOptions {
@@ -26,14 +27,16 @@ export function useTrackProperty(
     setCurrentProperty(propertyParams)
 
     if (trackView) {
+      const pagePath = getCurrentPagePath()
+
       trackEvent(
         analyticsEvents.propertyViewed,
         {
           ...propertyParams,
-          page_path: `${window.location.pathname}${window.location.search}`,
+          page_path: pagePath,
         },
         {
-          dedupeKey: `property-view:${propertyParams.property_id}:${window.location.pathname}`,
+          dedupeKey: `property-view:${propertyParams.property_id}:${pagePath}`,
         }
       )
     }

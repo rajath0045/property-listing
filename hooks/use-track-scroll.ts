@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { analyticsConfig, analyticsEvents } from "@/lib/analytics/config"
 import { setMaxScrollPercent } from "@/lib/analytics/state"
 import { clamp, round } from "@/lib/analytics/utils"
@@ -13,13 +13,16 @@ interface UseTrackScrollOptions {
 
 export function useTrackScroll({ enabled = true }: UseTrackScrollOptions = {}) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const search = searchParams.toString()
+  const routeKey = search ? `${pathname}?${search}` : pathname
   const sentMilestonesRef = useRef<Set<number>>(new Set())
   const tickingRef = useRef(false)
   const { trackEvent } = useAnalytics()
 
   useEffect(() => {
     sentMilestonesRef.current = new Set()
-  }, [pathname])
+  }, [routeKey])
 
   useEffect(() => {
     if (!enabled || typeof window === "undefined") return
@@ -45,10 +48,10 @@ export function useTrackScroll({ enabled = true }: UseTrackScrollOptions = {}) {
             milestone_percent: milestone,
             page_completed_percent: completedRounded,
             scroll_depth_percent: round(scrollDepthPercent, 1),
-            page_path: `${window.location.pathname}${window.location.search}`,
+            page_path: routeKey,
           },
           {
-            dedupeKey: `scroll:${pathname}:${milestone}`,
+            dedupeKey: `scroll:${routeKey}:${milestone}`,
             nonInteraction: true,
           }
         )
@@ -72,5 +75,5 @@ export function useTrackScroll({ enabled = true }: UseTrackScrollOptions = {}) {
       window.removeEventListener("scroll", handleScroll)
       window.removeEventListener("resize", handleScroll)
     }
-  }, [enabled, pathname, trackEvent])
+  }, [enabled, routeKey, trackEvent])
 }

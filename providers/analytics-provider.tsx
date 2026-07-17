@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react"
+import { Suspense, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react"
 import { AnalyticsContext } from "./analytics-context"
 import { AnalyticsConsentBanner } from "@/components/analytics/analytics-consent-banner"
 import { AnalyticsRuntime } from "@/components/analytics/analytics-runtime"
@@ -10,7 +10,12 @@ import {
   subscribeToConsent,
   updateConsent,
 } from "@/lib/analytics/consent-store"
-import { initializeAnalytics, trackAnalyticsEvent, trackAnalyticsPageView } from "@/lib/analytics/core"
+import {
+  initializeAnalytics,
+  trackAnalyticsEvent,
+  trackAnalyticsPageView,
+  updateAnalyticsConsent,
+} from "@/lib/analytics/core"
 import type {
   AnalyticsEventName,
   AnalyticsEventOptions,
@@ -49,10 +54,13 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
 
   const declineAnalytics = useCallback(() => {
     updateConsent("denied")
+    updateAnalyticsConsent("denied")
+    setIsInitialized(false)
   }, [])
 
   const resetAnalyticsConsent = useCallback(() => {
     updateConsent("denied")
+    updateAnalyticsConsent("denied")
     setIsInitialized(false)
   }, [])
 
@@ -98,7 +106,9 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
   return (
     <AnalyticsContext.Provider value={value}>
       {children}
-      <AnalyticsRuntime enabled={hasConsent && isInitialized} />
+      <Suspense fallback={null}>
+        <AnalyticsRuntime enabled={hasConsent && isInitialized} />
+      </Suspense>
       <AnalyticsConsentBanner />
     </AnalyticsContext.Provider>
   )

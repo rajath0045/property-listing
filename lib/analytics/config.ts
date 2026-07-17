@@ -1,9 +1,14 @@
 import type { AnalyticsEventName } from "./types"
 
+function readPublicEnv(value: string | undefined) {
+  return value?.trim() ?? ""
+}
+
 export const analyticsConfig = {
-  gaMeasurementId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "",
-  clarityProjectId: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? "",
-  debugMode: process.env.NEXT_PUBLIC_ANALYTICS_DEBUG === "true",
+  gaMeasurementId: readPublicEnv(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID),
+  clarityProjectId: readPublicEnv(process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID),
+  debugMode: readPublicEnv(process.env.NEXT_PUBLIC_ANALYTICS_DEBUG).toLowerCase() === "true",
+  requireConsent: readPublicEnv(process.env.NEXT_PUBLIC_ANALYTICS_REQUIRE_CONSENT).toLowerCase() === "true",
   consentCookieName: "gokulam_analytics_consent",
   consentVersion: "2026-07-17",
   maxEventParamLength: 100,

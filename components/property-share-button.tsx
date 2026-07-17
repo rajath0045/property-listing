@@ -20,15 +20,19 @@ export function PropertyShareButton({ property }: PropertyShareButtonProps) {
       page_path: `${window.location.pathname}${window.location.search}`,
     })
 
-    if (navigator.share) {
-      await navigator.share({
-        title: property.property_name,
-        url,
-      })
-      return
-    }
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: property.property_name,
+          url,
+        })
+        return
+      }
 
-    await navigator.clipboard?.writeText(url)
+      await navigator.clipboard?.writeText(url)
+    } catch {
+      // Share cancellation and clipboard denial should not surface as console errors.
+    }
   }
 
   return (

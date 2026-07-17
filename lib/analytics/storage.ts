@@ -8,6 +8,12 @@ const sessionIdKey = "gokulam_analytics_session_id"
 const sessionStartedAtKey = "gokulam_analytics_session_started_at"
 const journeyKey = "gokulam_analytics_journey"
 
+let memorySessionId = ""
+let memorySessionStartedAt = Date.now()
+let memoryVisitorSeen = false
+let memoryVisitCount = 0
+let memoryJourney: string[] = []
+
 function canUseBrowserStorage() {
   return typeof window !== "undefined" && typeof document !== "undefined"
 }
@@ -15,25 +21,59 @@ function canUseBrowserStorage() {
 function readCookie(name: string) {
   if (!canUseBrowserStorage()) return null
 
-  const cookie = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(`${name}=`))
+  try {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(`${name}=`))
 
-  return cookie ? decodeURIComponent(cookie.split("=").slice(1).join("=")) : null
+    return cookie ? decodeURIComponent(cookie.split("=").slice(1).join("=")) : null
+  } catch {
+    return null
+  }
 }
 
 function writeCookie(name: string, value: string) {
   if (!canUseBrowserStorage()) return
 
-  document.cookie = [
-    `${name}=${encodeURIComponent(value)}`,
-    `Max-Age=${oneYearInSeconds}`,
-    "Path=/",
-    "SameSite=Lax",
-    window.location.protocol === "https:" ? "Secure" : "",
-  ]
-    .filter(Boolean)
-    .join("; ")
+  try {
+    document.cookie = [
+      `${name}=${encodeURIComponent(value)}`,
+      `Max-Age=${oneYearInSeconds}`,
+      "Path=/",
+      "SameSite=Lax",
+      window.location.protocol === "https:" ? "Secure" : "",
+    ]
+      .filter(Boolean)
+      .join("; ")
+  } catch {
+    // Storage can be unavailable in hardened browser modes; analytics should never break the app.
+  }
+}
+
+function getStorage(type: "local" | "session") {
+  if (!canUseBrowserStorage()) return null
+
+  try {
+    return type === "local" ? window.localStorage : window.sessionStorage
+  } catch {
+    return null
+  }
+}
+
+function readStorage(type: "local" | "session", key: string) {
+  try {
+    return getStorage(type)?.getItem(key) ?? null
+  } catch {
+    return null
+  }
+}
+
+function writeStorage(type: "local" | "session", key: string, value: string) {
+  try {
+    getStorage(type)?.setItem(key, value)
+  } catch {
+    // Ignore unavailable storage/quota failures; in-memory fallbacks keep tracking stable.
+  }
 }
 
 export function getStoredConsent(): AnalyticsConsentStatus {
@@ -43,7 +83,7 @@ export function getStoredConsent(): AnalyticsConsentStatus {
     return stored
   }
 
-  return "unknown"
+  return analyticsConfig.requireConsent ? "unknown" : "granted"
 }
 
 export function setStoredConsent(status: Exclude<AnalyticsConsentStatus, "unknown">) {
@@ -53,17 +93,24 @@ export function setStoredConsent(status: Exclude<AnalyticsConsentStatus, "unknow
 export function getSessionId() {
   if (!canUseBrowserStorage()) return ""
 
-  const existing = window.sessionStorage.getItem(sessionIdKey)
+  const existing = readStorage("session", sessionIdKey)
 
-  if (existing) return existing
+  if (existing) {
+    memorySessionId = existing
+    return existing
+  }
+
+  if (memorySessionId) return memorySessionId
 
   const sessionId =
     typeof crypto !== "undefined" && "randomUUID" in crypto
       ? crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(16).slice(2)}`
 
-  window.sessionStorage.setItem(sessionIdKey, sessionId)
-  window.sessionStorage.setItem(sessionStartedAtKey, String(Date.now()))
+  memorySessionId = sessionId
+  memorySessionStartedAt = Date.now()
+  writeStorage("session", sessionIdKey, sessionId)
+  writeStorage("session", sessionStartedAtKey, String(memorySessionStartedAt))
 
   return sessionId
 }
@@ -71,7 +118,9 @@ export function getSessionId() {
 export function getSessionDurationMs() {
   if (!canUseBrowserStorage()) return 0
 
-  const startedAt = Number(window.sessionStorage.getItem(sessionStartedAtKey) ?? Date.now())
+  const storedStartedAt = Number(readStorage("session", sessionStartedAtKey) ?? memorySessionStartedAt)
+  const startedAt = Number.isFinite(storedStartedAt) ? storedStartedAt : memorySessionStartedAt
+
   return Math.max(0, Date.now() - startedAt)
 }
 
@@ -83,16 +132,22 @@ export function getVisitorStatus() {
     }
   }
 
-  const hasSeenVisitor = window.localStorage.getItem(visitorSeenKey) === "true"
-  const previousVisitCount = Number(window.localStorage.getItem(visitCountKey) ?? "0")
-  const visitCount = previousVisitCount + (window.sessionStorage.getItem(sessionIdKey) ? 0 : 1)
+  const storedVisitorSeen = readStorage("local", visitorSeenKey)
+  const hasSeenVisitor = storedVisitorSeen === "true" || (storedVisitorSeen === null && memoryVisitorSeen)
+  const storedVisitCount = Number(readStorage("local", visitCountKey) ?? memoryVisitCount)
+  const previousVisitCount = Number.isFinite(storedVisitCount) ? storedVisitCount : memoryVisitCount
+  const hasSession = Boolean(readStorage("session", sessionIdKey) ?? memorySessionId)
+  const visitCount = previousVisitCount + (hasSession ? 0 : 1)
+  const nextVisitCount = Math.max(visitCount, previousVisitCount || 1)
 
-  window.localStorage.setItem(visitorSeenKey, "true")
-  window.localStorage.setItem(visitCountKey, String(Math.max(visitCount, previousVisitCount || 1)))
+  memoryVisitorSeen = true
+  memoryVisitCount = nextVisitCount
+  writeStorage("local", visitorSeenKey, "true")
+  writeStorage("local", visitCountKey, String(nextVisitCount))
 
   return {
     visitor_type: hasSeenVisitor ? "returning" : "new",
-    visit_count: Math.max(visitCount, previousVisitCount || 1),
+    visit_count: nextVisitCount,
   }
 }
 
@@ -100,10 +155,16 @@ export function readJourney() {
   if (!canUseBrowserStorage()) return []
 
   try {
-    const parsed = JSON.parse(window.sessionStorage.getItem(journeyKey) ?? "[]")
-    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : []
+    const storedJourney = readStorage("session", journeyKey)
+    if (!storedJourney) return memoryJourney
+
+    const parsed = JSON.parse(storedJourney)
+    const journey = Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : []
+    memoryJourney = journey
+
+    return journey
   } catch {
-    return []
+    return memoryJourney
   }
 }
 
@@ -115,7 +176,8 @@ export function appendJourney(path: string) {
   const nextJourney = lastPath === path ? journey : [...journey, path]
   const trimmedJourney = nextJourney.slice(-analyticsConfig.maxJourneyEntries)
 
-  window.sessionStorage.setItem(journeyKey, JSON.stringify(trimmedJourney))
+  memoryJourney = trimmedJourney
+  writeStorage("session", journeyKey, JSON.stringify(trimmedJourney))
 
   return trimmedJourney
 }

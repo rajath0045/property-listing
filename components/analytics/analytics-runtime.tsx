@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { trackPageExit } from "@/lib/analytics/exit"
 import { resetSectionStore } from "@/lib/analytics/section-store"
 import { resetPageContext } from "@/lib/analytics/state"
@@ -19,6 +19,9 @@ interface AnalyticsRuntimeProps {
 
 export function AnalyticsRuntime({ enabled }: AnalyticsRuntimeProps) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const search = searchParams.toString()
+  const routeKey = search ? `${pathname}?${search}` : pathname
   const previousPathRef = useRef<string | null>(null)
   const { trackPageView } = useAnalytics()
 
@@ -28,6 +31,8 @@ export function AnalyticsRuntime({ enabled }: AnalyticsRuntimeProps) {
     const nextPath = getCurrentPagePath()
     const previousPath = previousPathRef.current
 
+    if (previousPath === nextPath) return
+
     if (previousPath && previousPath !== nextPath) {
       trackPageExit("route_change")
       resetSectionStore()
@@ -36,19 +41,20 @@ export function AnalyticsRuntime({ enabled }: AnalyticsRuntimeProps) {
     const previousJourney = readJourney()
     const previousPagePath = previousJourney.at(-1) ?? ""
     const journey = appendJourney(nextPath)
-
-    resetPageContext(nextPath)
+    const pageContext = resetPageContext(nextPath)
 
     trackPageView({
+      page_id: pageContext.page_id,
       page_path: nextPath,
       page_title: document.title,
+      page_referrer: previousPath ? `${window.location.origin}${previousPath}` : document.referrer,
       previous_page_path: previousPagePath === nextPath ? previousJourney.at(-2) : previousPagePath,
       journey_depth: journey.length,
       entry_page_path: journey[0] ?? nextPath,
     })
 
     previousPathRef.current = nextPath
-  }, [enabled, pathname, trackPageView])
+  }, [enabled, routeKey, trackPageView])
 
   useTrackScroll({ enabled })
   useTrackExit({ enabled })

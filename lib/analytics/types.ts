@@ -140,10 +140,18 @@ export type ClarityCommand = ((...args: unknown[]) => void) & {
   q?: unknown[][]
 }
 
+export interface AnalyticsGlobalState {
+  gaInitialized?: boolean
+  gaMeasurementId?: string
+  clarityInitialized?: boolean
+  clarityProjectId?: string
+}
+
 declare global {
   interface Window {
     dataLayer?: unknown[]
     gtag?: GtagCommand
     clarity?: ClarityCommand
+    __gokulamAnalyticsState?: AnalyticsGlobalState
   }
 }

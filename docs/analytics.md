@@ -16,9 +16,14 @@ Create `.env.local` from `.env.example`:
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_CLARITY_PROJECT_ID=your_clarity_project_id
 NEXT_PUBLIC_ANALYTICS_DEBUG=false
+NEXT_PUBLIC_ANALYTICS_REQUIRE_CONSENT=false
 ```
 
 Restart the Next.js dev server after changing these values.
+
+`NEXT_PUBLIC_*` values are baked into the client bundle at build time. On Vercel, set these values before deploying so production builds receive the correct GA4 Measurement ID and Clarity Project ID.
+
+By default, analytics initializes immediately so GA4 Realtime and Clarity can receive production visits. If you need strict opt-in consent before any analytics scripts load, set `NEXT_PUBLIC_ANALYTICS_REQUIRE_CONSENT=true`; visitors who have previously clicked Decline must clear the `gokulam_analytics_consent` cookie or click an app-provided reset control before analytics can start again.
 
 ## GA4 Configuration
 
@@ -33,6 +38,8 @@ Restart the Next.js dev server after changing these values.
    `max_scroll_percent`, `page_time_spent_ms`, `last_viewed_section`, and `visitor_type`.
 7. In Reports > Engagement > Events, confirm custom events appear after consent is accepted.
 8. In Explore, build funnels such as `property_viewed` > `property_gallery_opened` > `booking_button_clicked`.
+
+This app sends manual `page_view` events so it can include journey and property context. In the GA4 web data stream, disable the Enhanced Measurement advanced setting named "Page changes based on browser history events" to avoid duplicate SPA page views.
 
 ## Microsoft Clarity Configuration
 
