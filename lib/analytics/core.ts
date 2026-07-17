@@ -1,6 +1,7 @@
+import Clarity from "@microsoft/clarity"
 import { analyticsConfig } from "./config"
 import { getSessionDurationMs, getSessionId, getVisitorStatus } from "./storage"
-import type { AnalyticsEventName, AnalyticsEventParams, AnalyticsEventOptions, ClarityCommand } from "./types"
+import type { AnalyticsEventName, AnalyticsEventParams, AnalyticsEventOptions } from "./types"
 import { getDeviceContext, sanitizeEventParams } from "./utils"
 
 let gaInitialized = false
@@ -54,21 +55,12 @@ export function initializeGoogleAnalytics() {
 export function initializeMicrosoftClarity() {
   if (typeof window === "undefined" || clarityInitialized || !analyticsConfig.clarityProjectId) return
 
-  if (!window.clarity) {
-    const clarityStub = ((...args: unknown[]) => {
-      clarityStub.q = clarityStub.q ?? []
-      clarityStub.q.push(args)
-    }) as ClarityCommand
+  Clarity.init(analyticsConfig.clarityProjectId)
+  Clarity.consentV2({ ad_Storage: "denied", analytics_Storage: "granted" })
 
-    window.clarity = clarityStub
-  }
+  const sessionId = getSessionId()
+  Clarity.identify(sessionId, sessionId, window.location.pathname)
 
-  const script = document.createElement("script")
-  script.async = true
-  script.src = `https://www.clarity.ms/tag/${analyticsConfig.clarityProjectId}`
-  document.head.appendChild(script)
-
-  window.clarity("set", "analytics_consent", "granted")
   clarityInitialized = true
 }
 
@@ -93,8 +85,8 @@ export function trackAnalyticsEvent(
     window.gtag("event", eventName, eventParams)
   }
 
-  if (window.clarity && analyticsConfig.clarityProjectId) {
-    window.clarity("event", eventName)
+  if (clarityInitialized && analyticsConfig.clarityProjectId) {
+    Clarity.event(eventName)
     setClarityTags(eventName, eventParams)
   }
 }
@@ -115,9 +107,13 @@ export function trackAnalyticsPageView(params: AnalyticsEventParams = {}) {
     window.gtag("event", "page_view", eventParams)
   }
 
-  if (window.clarity && analyticsConfig.clarityProjectId) {
-    window.clarity("event", "page_view")
+  if (clarityInitialized && analyticsConfig.clarityProjectId) {
+    Clarity.event("page_view")
     setClarityTags("page_view", eventParams)
+
+    // Call identify for optimal page-level user tracking
+    const sessionId = getSessionId()
+    Clarity.identify(sessionId, sessionId, window.location.pathname)
   }
 }
 
@@ -148,8 +144,6 @@ function isDuplicateEvent(dedupeKey: string) {
 }
 
 function setClarityTags(eventName: AnalyticsEventName | "page_view", params: AnalyticsEventParams) {
-  if (!window.clarity) return
-
   const allowedTagKeys = [
     "page_path",
     "property_id",
@@ -159,13 +153,13 @@ function setClarityTags(eventName: AnalyticsEventName | "page_view", params: Ana
     "visitor_type",
   ]
 
-  window.clarity("set", "last_event", eventName)
+  Clarity.setTag("last_event", eventName)
 
   allowedTagKeys.forEach((key) => {
     const value = params[key]
 
     if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-      window.clarity?.("set", key, String(value))
+      Clarity.setTag(key, String(value))
     }
   })
 }
