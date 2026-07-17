@@ -1,22 +1,53 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useMemo, useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, X, Grid, Expand, Layers } from "lucide-react"
 import useEmblaCarousel from "embla-carousel-react"
+import { useTrackEvent } from "@/hooks/use-track-event"
+import { useTrackProperty } from "@/hooks/use-track-property"
+import { analyticsEvents } from "@/lib/analytics/config"
 
 interface ImageGalleryProps {
   images: string[]
   imageCategories?: { name: string; images: string[] }[]
   propertyName: string
+  propertyId?: string
+  propertySlug?: string
 }
 
-export function ImageGallery({ images, imageCategories, propertyName }: ImageGalleryProps) {
+export function ImageGallery({
+  images,
+  imageCategories,
+  propertyName,
+  propertyId,
+  propertySlug,
+}: ImageGalleryProps) {
   const [isPhotoTourOpen, setIsPhotoTourOpen] = useState(false)
   const [isSlideshowOpen, setIsSlideshowOpen] = useState(false)
   const [slideshowIndex, setSlideshowIndex] = useState(0)
   const [activeCategory, setActiveCategory] = useState(0)
+  const previousSlideshowIndexRef = useRef<number | null>(null)
+  const previousMobileIndexRef = useRef(0)
   const isModalOpen = isPhotoTourOpen || isSlideshowOpen
+  const propertyContext = useMemo(
+    () =>
+      propertyId
+        ? {
+            property_id: propertyId,
+            property_name: propertyName,
+            property_slug: propertySlug ?? propertyId,
+          }
+        : undefined,
+    [propertyId, propertyName, propertySlug]
+  )
+  const trackEvent = useTrackEvent()
+  const { trackGalleryOpened, trackImageChanged, trackImageViewed } = useTrackProperty(propertyContext)
+  const propertyParams = {
+    property_id: propertyId,
+    property_name: propertyName,
+    property_slug: propertySlug,
+  }
 
   // Embla Carousel for mobile gallery view
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
@@ -26,7 +57,20 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
     if (!emblaApi) return
 
     const handleSelect = () => {
-      setMobileIndex(emblaApi.selectedScrollSnap() + 1)
+      const selectedIndex = emblaApi.selectedScrollSnap()
+
+      setMobileIndex(selectedIndex + 1)
+
+      if (previousMobileIndexRef.current !== selectedIndex) {
+        trackImageChanged({
+          image_index: selectedIndex + 1,
+          image_url: images[selectedIndex],
+          interaction_location: "mobile_gallery",
+          direction: selectedIndex > previousMobileIndexRef.current ? "next" : "previous",
+        })
+      }
+
+      previousMobileIndexRef.current = selectedIndex
     }
 
     handleSelect()
@@ -35,7 +79,31 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
     return () => {
       emblaApi.off("select", handleSelect)
     }
-  }, [emblaApi])
+  }, [emblaApi, images, trackImageChanged])
+
+  useEffect(() => {
+    if (!isSlideshowOpen) {
+      previousSlideshowIndexRef.current = null
+      return
+    }
+
+    if (previousSlideshowIndexRef.current !== null && previousSlideshowIndexRef.current !== slideshowIndex) {
+      trackImageChanged({
+        image_index: slideshowIndex + 1,
+        image_url: images[slideshowIndex],
+        interaction_location: "slideshow",
+        previous_image_index: previousSlideshowIndexRef.current + 1,
+      })
+    }
+
+    previousSlideshowIndexRef.current = slideshowIndex
+
+    trackImageViewed({
+      image_index: slideshowIndex + 1,
+      image_url: images[slideshowIndex],
+      interaction_location: "slideshow",
+    })
+  }, [images, isSlideshowOpen, slideshowIndex, trackImageChanged, trackImageViewed])
 
   // Keyboard navigation for slideshow
   useEffect(() => {
@@ -67,12 +135,42 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
     }
   }, [isModalOpen])
 
-  const openPhotoTour = () => setIsPhotoTourOpen(true)
+  const openPhotoTour = (source = "gallery_button") => {
+    setIsPhotoTourOpen(true)
+    trackGalleryOpened({
+      gallery_type: "photo_tour",
+      gallery_source: source,
+      image_count: images.length,
+    })
+    trackEvent(analyticsEvents.modalOpened, {
+      ...propertyParams,
+      modal_name: "photo_tour",
+      modal_source: source,
+    })
+  }
   const closePhotoTour = () => setIsPhotoTourOpen(false)
 
-  const openSlideshow = (index: number) => {
+  const openSlideshow = (index: number, source = "gallery_image") => {
     setSlideshowIndex(index)
     setIsSlideshowOpen(true)
+    trackGalleryOpened({
+      gallery_type: "slideshow",
+      gallery_source: source,
+      image_count: images.length,
+      image_index: index + 1,
+      image_url: images[index],
+    })
+    trackEvent(analyticsEvents.modalOpened, {
+      ...propertyParams,
+      modal_name: "slideshow",
+      modal_source: source,
+    })
+    trackEvent(analyticsEvents.imageZoom, {
+      ...propertyParams,
+      image_index: index + 1,
+      image_url: images[index],
+      zoom_source: source,
+    })
   }
 
   const closeSlideshow = () => setIsSlideshowOpen(false)
@@ -94,7 +192,13 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {images.map((src, index) => (
-              <div key={index} className="relative flex-[0_0_100%] aspect-[4/3] w-full cursor-pointer" onClick={() => openSlideshow(index)}>
+              <div
+                key={index}
+                className="relative flex-[0_0_100%] aspect-[4/3] w-full cursor-pointer"
+                onClick={() => openSlideshow(index, "mobile_gallery")}
+                data-analytics-clickable
+                data-analytics-label={`Mobile gallery image ${index + 1}`}
+              >
                 <Image
                   src={src}
                   alt={`${propertyName} - Photo ${index + 1}`}
@@ -115,8 +219,9 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
         
         {/* Mobile View All Button */}
         <button 
-          onClick={openPhotoTour} 
+          onClick={() => openPhotoTour("mobile_show_all")} 
           className="absolute bottom-4 left-4 bg-background/95 text-foreground backdrop-blur-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 border border-border shadow-xs hover:bg-background transition-all"
+          data-analytics-label="Mobile show all photos"
         >
           <Layers className="w-3.5 h-3.5" />
           <span className="text-xs font-medium">Show all</span>
@@ -132,7 +237,7 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
             alt={`${propertyName} - Hero view`}
             fill
             className="object-cover hover:scale-101 hover:brightness-95 transition-all duration-500 ease-out"
-            onClick={() => openSlideshow(0)}
+            onClick={() => openSlideshow(0, "desktop_primary_image")}
             sizes="(max-width: 1200px) 50vw, 600px"
             priority
           />
@@ -143,7 +248,9 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
           <div
             key={index}
             className="relative cursor-pointer overflow-hidden bg-muted"
-            onClick={() => openSlideshow(index + 1)}
+            onClick={() => openSlideshow(index + 1, "desktop_thumbnail")}
+            data-analytics-clickable
+            data-analytics-label={`Desktop gallery thumbnail ${index + 2}`}
           >
             <Image
               src={src}
@@ -158,7 +265,7 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
               <div 
                 onClick={(e) => {
                   e.stopPropagation()
-                  openPhotoTour()
+                  openPhotoTour("desktop_more_overlay")
                 }}
                 className="absolute inset-0 bg-black/50 hover:bg-black/60 transition-colors flex flex-col items-center justify-center text-white gap-1 select-none"
               >
@@ -172,8 +279,9 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
         {/* Desktop View All Photos Floating Button */}
         {images.length > 5 && (
           <button
-            onClick={openPhotoTour}
+            onClick={() => openPhotoTour("desktop_show_all")}
             className="absolute bottom-6 right-6 bg-card/95 hover:bg-card border border-border text-foreground px-4 py-2.5 rounded-lg flex items-center gap-2 shadow-lg hover:scale-102 active:scale-98 transition-all duration-200 select-none z-10"
+            data-analytics-label="Desktop show all photos"
           >
             <Grid className="w-4 h-4 text-foreground" />
             <span className="font-semibold text-xs tracking-wider">Show all photos</span>
@@ -215,6 +323,12 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
                     key={cat.name}
                     onClick={() => {
                       setActiveCategory(idx)
+                      trackEvent(analyticsEvents.propertyGalleryCategoryClicked, {
+                        ...propertyParams,
+                        category_name: cat.name,
+                        category_index: idx + 1,
+                        category_image_count: cat.images.length,
+                      })
                       document.getElementById(`pdp-category-${idx}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                     }}
                     className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
@@ -245,8 +359,10 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
                         return (
                           <div 
                             key={imgIdx} 
-                            onClick={() => openSlideshow(globalIdx !== -1 ? globalIdx : 0)}
+                            onClick={() => openSlideshow(globalIdx !== -1 ? globalIdx : 0, "photo_tour_image")}
                             className="relative aspect-[4/3] rounded-xl overflow-hidden border bg-muted group cursor-pointer"
+                            data-analytics-clickable
+                            data-analytics-label={`${cat.name} photo ${imgIdx + 1}`}
                           >
                             <Image
                               src={img}
@@ -272,8 +388,10 @@ export function ImageGallery({ images, imageCategories, propertyName }: ImageGal
                 {images.map((img, imgIdx) => (
                   <div 
                     key={imgIdx} 
-                    onClick={() => openSlideshow(imgIdx)}
+                    onClick={() => openSlideshow(imgIdx, "photo_tour_image")}
                     className="relative aspect-[4/3] rounded-xl overflow-hidden border bg-muted group cursor-pointer"
+                    data-analytics-clickable
+                    data-analytics-label={`Photo ${imgIdx + 1}`}
                   >
                     <Image
                       src={img}

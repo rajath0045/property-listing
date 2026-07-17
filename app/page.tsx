@@ -6,6 +6,7 @@ import { PropertyMap } from "@/components/property-map"
 import { GoogleReviews } from "@/components/google-reviews"
 import { InstagramFeed } from "@/components/instagram-feed"
 import { ContactSection } from "@/components/contact-section"
+import { TrackedSection } from "@/components/analytics/tracked-section"
 import { properties } from "@/lib/properties"
 
 export default function HomePage() {
@@ -14,10 +15,18 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section */}
-      <Hero />
+      <TrackedSection as="div" sectionId="hero" sectionName="Hero section" pageType="home">
+        <Hero />
+      </TrackedSection>
 
       {/* Properties Grid */}
-      <section id="properties" className="py-20 bg-background">
+      <TrackedSection
+        id="properties"
+        className="py-20 bg-background"
+        sectionId="featured_properties"
+        sectionName="Featured properties"
+        pageType="home"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">Our Collection</p>
@@ -36,10 +45,15 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </TrackedSection>
 
       {/* Map Section */}
-      <section className="py-20 bg-secondary/30">
+      <TrackedSection
+        className="py-20 bg-secondary/30"
+        sectionId="map"
+        sectionName="Map"
+        pageType="home"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">Location</p>
@@ -53,19 +67,27 @@ export default function HomePage() {
           </div>
           <PropertyMap showAllProperties />
         </div>
-      </section>
+      </TrackedSection>
 
       {/* Google Reviews */}
-      <GoogleReviews />
+      <TrackedSection as="div" sectionId="reviews" sectionName="Reviews" pageType="home">
+        <GoogleReviews />
+      </TrackedSection>
 
       {/* Instagram Feed */}
-      <InstagramFeed />
+      <TrackedSection as="div" sectionId="instagram_feed" sectionName="Instagram feed" pageType="home">
+        <InstagramFeed />
+      </TrackedSection>
 
       {/* Contact Section */}
-      <ContactSection />
+      <TrackedSection as="div" sectionId="contact" sectionName="Contact section" pageType="home">
+        <ContactSection />
+      </TrackedSection>
 
       {/* Footer */}
-      <Footer />
+      <TrackedSection as="div" sectionId="footer" sectionName="Footer" pageType="home">
+        <Footer />
+      </TrackedSection>
     </div>
   )
 }

@@ -68,6 +68,8 @@ export function InstagramFeed() {
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2.5 border border-foreground/20 rounded-full font-medium text-sm text-foreground hover:bg-foreground hover:text-background transition-colors"
+            data-analytics-label="Follow on Instagram"
+            data-analytics-surface="instagram_feed"
           >
             Follow on Instagram
           </a>
@@ -82,6 +84,8 @@ export function InstagramFeed() {
               target="_blank"
               rel="noopener noreferrer"
               className="group relative aspect-square overflow-hidden rounded-lg"
+              data-analytics-label={`Instagram post ${post.id}`}
+              data-analytics-surface="instagram_feed"
             >
               <Image
                 src={post.image}

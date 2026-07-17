@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useCallback, useState, useEffect, useRef, useMemo } from "react"
 import Link from "next/link"
 import { MapPin, Home, Train, Building, Landmark, Dumbbell } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useTrackEvent } from "@/hooks/use-track-event"
+import { analyticsEvents } from "@/lib/analytics/config"
 import { properties, landmarks, Property, Landmark as LandmarkType, formatPrice } from "@/lib/properties"
 
 interface PropertyMapProps {
@@ -141,10 +143,12 @@ function StaticMapFallback({
   displayProperties,
   highlightedPropertyId,
   onSelectProperty,
+  onHoverProperty,
 }: {
   displayProperties: Property[]
   highlightedPropertyId?: string
   onSelectProperty: (property: Property) => void
+  onHoverProperty: (property: Property) => void
 }) {
   const points = [
     ...displayProperties.map((property) => property.coordinates),
@@ -179,6 +183,7 @@ function StaticMapFallback({
             key={property.id}
             type="button"
             onClick={() => onSelectProperty(property)}
+            onMouseEnter={() => onHoverProperty(property)}
             className={`absolute z-20 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-2 text-xs shadow-lg transition-transform hover:scale-105 ${
               isHighlighted
                 ? "scale-110 bg-primary font-semibold text-primary-foreground"
@@ -186,6 +191,8 @@ function StaticMapFallback({
             }`}
             style={position}
             aria-label={`Show ${property.name} on map`}
+            data-analytics-label={`Map marker ${property.name}`}
+            data-analytics-property-id={property.id}
           >
             <Home className="h-3.5 w-3.5" />
             {formatPrice(property.pricing.basePrice)}
@@ -201,6 +208,7 @@ function StaticMapFallback({
 }
 
 export function PropertyMap({ highlightedPropertyId, showAllProperties = true }: PropertyMapProps) {
+  const trackEvent = useTrackEvent()
   const highlightedProperty = useMemo(
     () => properties.find((property) => property.id === highlightedPropertyId),
     [highlightedPropertyId]
@@ -208,6 +216,7 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(highlightedProperty ?? null)
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<any>(null)
+  const mapLoadedTrackedRef = useRef(false)
   const [leafletStatus, setLeafletStatus] = useState<"loading" | "ready" | "error">("loading")
 
   const displayProperties = useMemo(() => {
@@ -217,6 +226,38 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
         ? properties.filter(p => p.id === highlightedPropertyId)
         : properties
   }, [showAllProperties, highlightedPropertyId])
+
+  const trackMapPropertyEvent = useCallback(
+    (
+      eventName: Parameters<typeof trackEvent>[0],
+      property: Property,
+      extra: Record<string, string | number | boolean | undefined> = {}
+    ) => {
+      trackEvent(eventName, {
+        property_id: property.id,
+        property_name: property.name,
+        property_slug: property.slug,
+        property_location: property.location,
+        map_context: highlightedPropertyId ? "property_page" : "overview",
+        highlighted_property_id: highlightedPropertyId,
+        ...extra,
+      })
+    },
+    [highlightedPropertyId, trackEvent]
+  )
+
+  const handleSelectProperty = useCallback((property: Property, source = "map_marker") => {
+    setSelectedProperty(property)
+    trackMapPropertyEvent(analyticsEvents.propertyMarkerClicked, property, {
+      marker_source: source,
+    })
+  }, [trackMapPropertyEvent])
+
+  const handleHoverProperty = useCallback((property: Property) => {
+    trackMapPropertyEvent(analyticsEvents.markerHover, property, {
+      marker_source: leafletStatus === "error" ? "static_fallback" : "leaflet",
+    })
+  }, [leafletStatus, trackMapPropertyEvent])
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -234,6 +275,19 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
       cancelled = true
     }
   }, [])
+
+  useEffect(() => {
+    if (leafletStatus !== "error" || mapLoadedTrackedRef.current) return
+
+    mapLoadedTrackedRef.current = true
+    trackEvent(analyticsEvents.propertyMapLoaded, {
+      map_context: highlightedPropertyId ? "property_page" : "overview",
+      highlighted_property_id: highlightedPropertyId,
+      property_count: displayProperties.length,
+      map_provider: "static_fallback",
+      map_status: "fallback",
+    })
+  }, [displayProperties.length, highlightedPropertyId, leafletStatus, trackEvent])
 
   useEffect(() => {
     if (leafletStatus !== "ready" || !mapContainerRef.current) return
@@ -263,6 +317,32 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
       zoomControl: true,
     })
     mapRef.current = map
+
+    if (!mapLoadedTrackedRef.current) {
+      mapLoadedTrackedRef.current = true
+      trackEvent(analyticsEvents.propertyMapLoaded, {
+        map_context: highlightedPropertyId ? "property_page" : "overview",
+        highlighted_property_id: highlightedPropertyId,
+        property_count: displayProperties.length,
+        map_provider: "leaflet_cartodb",
+      })
+    }
+
+    map.on("zoomend", () => {
+      trackEvent(analyticsEvents.mapZoom, {
+        map_context: highlightedPropertyId ? "property_page" : "overview",
+        highlighted_property_id: highlightedPropertyId,
+        zoom_level: map.getZoom(),
+      })
+    })
+
+    map.on("dragend", () => {
+      trackEvent(analyticsEvents.mapInteraction, {
+        interaction_type: "drag",
+        map_context: highlightedPropertyId ? "property_page" : "overview",
+        highlighted_property_id: highlightedPropertyId,
+      })
+    })
 
     L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -299,8 +379,12 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
       `)
 
       marker.on("click", () => {
-        setSelectedProperty(property)
+        handleSelectProperty(property, "leaflet_marker")
         marker.openPopup()
+      })
+
+      marker.on("mouseover", () => {
+        handleHoverProperty(property)
       })
     })
 
@@ -342,7 +426,15 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
         mapRef.current = null
       }
     }
-  }, [leafletStatus, highlightedPropertyId, highlightedProperty, displayProperties])
+  }, [
+    displayProperties,
+    handleHoverProperty,
+    handleSelectProperty,
+    highlightedProperty,
+    highlightedPropertyId,
+    leafletStatus,
+    trackEvent,
+  ])
 
   return (
     <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm">
@@ -373,7 +465,8 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
           <StaticMapFallback
             displayProperties={displayProperties}
             highlightedPropertyId={highlightedPropertyId}
-            onSelectProperty={setSelectedProperty}
+            onSelectProperty={(property) => handleSelectProperty(property, "static_fallback")}
+            onHoverProperty={handleHoverProperty}
           />
         )}
 
@@ -406,6 +499,9 @@ export function PropertyMap({ highlightedPropertyId, showAllProperties = true }:
                   <Link
                     href={`/property/${selectedProperty.slug}`}
                     className="text-xs font-semibold bg-primary text-primary-foreground px-3 py-1.5 rounded-lg hover:opacity-90 transition-opacity"
+                    data-analytics-label={`Map details ${selectedProperty.name}`}
+                    data-analytics-property-id={selectedProperty.id}
+                    data-analytics-surface="map"
                   >
                     Details
                   </Link>

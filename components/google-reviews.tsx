@@ -83,6 +83,7 @@ export function GoogleReviews() {
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline font-medium text-sm"
+            data-analytics-label="See all Google reviews"
           >
             See all reviews on Google
           </a>

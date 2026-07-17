@@ -4,6 +4,8 @@ import Link from "next/link"
 import { useState } from "react"
 import { Menu, X, Instagram } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTrackEvent } from "@/hooks/use-track-event"
+import { analyticsEvents } from "@/lib/analytics/config"
 import { WHATSAPP_NUMBER } from "@/lib/properties"
 
 interface HeaderProps {
@@ -12,17 +14,31 @@ interface HeaderProps {
 
 export function Header({ variant = "transparent" }: HeaderProps = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const trackEvent = useTrackEvent()
 
   const headerBgClass = variant === "transparent" ? "absolute bg-transparent" : "sticky bg-background border-b shadow-sm"
   const titleClass = variant === "transparent" ? "text-card" : "text-foreground"
   const linkClass = variant === "transparent" ? "text-card/80 hover:text-card" : "text-muted-foreground hover:text-foreground"
   const buttonClass = variant === "transparent" ? "bg-card text-foreground hover:bg-card/90" : "bg-primary text-primary-foreground hover:bg-primary/90"
 
+  const toggleMenu = () => {
+    const nextIsOpen = !isMenuOpen
+
+    setIsMenuOpen(nextIsOpen)
+
+    if (nextIsOpen) {
+      trackEvent(analyticsEvents.dropdownOpened, {
+        dropdown_name: "mobile_navigation",
+        surface: "header",
+      })
+    }
+  }
+
   return (
-    <header className={`${headerBgClass} top-0 left-0 right-0 z-50`}>
+    <header className={`${headerBgClass} top-0 left-0 right-0 z-50`} data-analytics-surface="header">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3" data-analytics-label="Gokulam Stays logo">
             <span className={`text-2xl font-serif font-light tracking-wide ${titleClass}`}>
               Gokulam Stays
             </span>
@@ -30,13 +46,13 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="/#properties" className={`${linkClass} transition-colors text-sm tracking-wide`}>
+            <Link href="/#properties" className={`${linkClass} transition-colors text-sm tracking-wide`} data-analytics-label="Our Stays">
               Our Stays
             </Link>
-            <Link href="/#reviews" className={`${linkClass} transition-colors text-sm tracking-wide`}>
+            <Link href="/#reviews" className={`${linkClass} transition-colors text-sm tracking-wide`} data-analytics-label="Reviews">
               Reviews
             </Link>
-            <Link href="/#contact" className={`${linkClass} transition-colors text-sm tracking-wide`}>
+            <Link href="/#contact" className={`${linkClass} transition-colors text-sm tracking-wide`} data-analytics-label="Contact">
               Contact
             </Link>
             <a
@@ -45,6 +61,7 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
               rel="noopener noreferrer"
               className={`${linkClass} transition-colors`}
               aria-label="Instagram"
+              data-analytics-label="Instagram"
             >
               <Instagram className="w-5 h-5" />
             </a>
@@ -52,6 +69,9 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hello! I'm interested in booking a homestay.`}
               target="_blank"
               rel="noopener noreferrer"
+              data-analytics-event="contact_button_clicked"
+              data-analytics-label="Header WhatsApp"
+              data-analytics-surface="header"
             >
               <Button className={`${buttonClass} rounded-full px-6 transition-colors`}>
                 <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
@@ -65,8 +85,9 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
           {/* Mobile Menu Button */}
           <button
             className={`md:hidden p-2 ${titleClass}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={toggleMenu}
             aria-label="Toggle menu"
+            data-analytics-label="Mobile menu"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -80,6 +101,7 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
                 href="/#properties"
                 className="text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
+                data-analytics-label="Mobile Our Stays"
               >
                 Our Stays
               </Link>
@@ -87,6 +109,7 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
                 href="/#reviews"
                 className="text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
+                data-analytics-label="Mobile Reviews"
               >
                 Reviews
               </Link>
@@ -94,6 +117,7 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
                 href="/#contact"
                 className="text-foreground hover:text-primary transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
+                data-analytics-label="Mobile Contact"
               >
                 Contact
               </Link>
@@ -101,6 +125,9 @@ export function Header({ variant = "transparent" }: HeaderProps = {}) {
                 href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hello! I'm interested in booking a homestay.`}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-analytics-event="contact_button_clicked"
+                data-analytics-label="Mobile WhatsApp"
+                data-analytics-surface="header"
               >
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full">
                   <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">

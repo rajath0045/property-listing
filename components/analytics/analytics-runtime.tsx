@@ -1,0 +1,59 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+import { usePathname } from "next/navigation"
+import { trackPageExit } from "@/lib/analytics/exit"
+import { resetSectionStore } from "@/lib/analytics/section-store"
+import { resetPageContext } from "@/lib/analytics/state"
+import { appendJourney, readJourney } from "@/lib/analytics/storage"
+import { getCurrentPagePath } from "@/lib/analytics/utils"
+import { useAnalytics } from "@/hooks/use-analytics"
+import { useTrackExit } from "@/hooks/use-track-exit"
+import { useTrackInteractions } from "@/hooks/use-track-interactions"
+import { useTrackPerformance } from "@/hooks/use-track-performance"
+import { useTrackScroll } from "@/hooks/use-track-scroll"
+
+interface AnalyticsRuntimeProps {
+  enabled: boolean
+}
+
+export function AnalyticsRuntime({ enabled }: AnalyticsRuntimeProps) {
+  const pathname = usePathname()
+  const previousPathRef = useRef<string | null>(null)
+  const { trackPageView } = useAnalytics()
+
+  useEffect(() => {
+    if (!enabled || typeof window === "undefined") return
+
+    const nextPath = getCurrentPagePath()
+    const previousPath = previousPathRef.current
+
+    if (previousPath && previousPath !== nextPath) {
+      trackPageExit("route_change")
+      resetSectionStore()
+    }
+
+    const previousJourney = readJourney()
+    const previousPagePath = previousJourney.at(-1) ?? ""
+    const journey = appendJourney(nextPath)
+
+    resetPageContext(nextPath)
+
+    trackPageView({
+      page_path: nextPath,
+      page_title: document.title,
+      previous_page_path: previousPagePath === nextPath ? previousJourney.at(-2) : previousPagePath,
+      journey_depth: journey.length,
+      entry_page_path: journey[0] ?? nextPath,
+    })
+
+    previousPathRef.current = nextPath
+  }, [enabled, pathname, trackPageView])
+
+  useTrackScroll({ enabled })
+  useTrackExit({ enabled })
+  useTrackPerformance({ enabled })
+  useTrackInteractions({ enabled })
+
+  return null
+}

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ChevronLeft, Star, Bed, Bath, Users, MapPin, Share2 } from "lucide-react"
+import { ChevronLeft, Star, Bed, Bath, Users, MapPin } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ImageGallery } from "@/components/image-gallery"
@@ -9,11 +9,13 @@ import { AmenitiesList } from "@/components/amenities-list"
 import { PropertyMap } from "@/components/property-map"
 import { GoogleReviews } from "@/components/google-reviews"
 import { ContactSection } from "@/components/contact-section"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { properties, getPropertyBySlug } from "@/lib/properties"
+import { properties, getPropertyBySlug, getCurrentPrice } from "@/lib/properties"
 import { PropertyCard } from "@/components/property-card"
+import { PropertyPageAnalytics } from "@/components/analytics/property-page-analytics"
+import { TrackedSection } from "@/components/analytics/tracked-section"
+import { PropertyShareButton } from "@/components/property-share-button"
 import type { Metadata } from "next"
 
 interface PropertyPageProps {
@@ -76,6 +78,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   }
 
   const otherProperties = properties.filter((p) => p.id !== property.id).slice(0, 3)
+  const propertyAnalyticsContext = {
+    property_id: property.id,
+    property_name: property.name,
+    property_slug: property.slug,
+    property_location: property.location,
+    property_price: getCurrentPrice(property),
+    property_rating: property.rating,
+  }
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
@@ -113,6 +123,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
+      <PropertyPageAnalytics property={property} />
       <Header variant="solid" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -125,14 +136,19 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             <ChevronLeft className="w-4 h-4" />
             <span>Back to properties</span>
           </Link>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Share2 className="w-4 h-4" />
-            Share
-          </Button>
+          <PropertyShareButton property={propertyAnalyticsContext} />
         </div>
 
         {/* Property Title */}
-        <div className="mb-6">
+        <TrackedSection
+          as="div"
+          className="mb-6"
+          sectionId="property_hero"
+          sectionName="Property hero"
+          pageType="property"
+          propertyId={property.id}
+          propertySlug={property.slug}
+        >
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 text-balance">
             {property.name}
           </h1>
@@ -147,23 +163,41 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <span>{property.location}</span>
             </div>
           </div>
-        </div>
+        </TrackedSection>
 
         {/* Image Gallery */}
-        <div className="mb-10">
+        <TrackedSection
+          as="div"
+          className="mb-10"
+          sectionId="property_gallery"
+          sectionName="Property gallery"
+          pageType="property"
+          propertyId={property.id}
+          propertySlug={property.slug}
+        >
           <ImageGallery 
             images={property.images} 
             imageCategories={property.imageCategories} 
             propertyName={property.name} 
+            propertyId={property.id}
+            propertySlug={property.slug}
           />
-        </div>
+        </TrackedSection>
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Left Column - Details */}
           <div className="lg:col-span-2 space-y-8">
             {/* Quick Info */}
-            <div className="flex flex-wrap gap-3">
+            <TrackedSection
+              as="div"
+              className="flex flex-wrap gap-3"
+              sectionId="property_summary"
+              sectionName="Property summary"
+              pageType="property"
+              propertyId={property.id}
+              propertySlug={property.slug}
+            >
               <Badge variant="secondary" className="px-4 py-2 text-sm gap-2">
                 <Users className="w-4 h-4" />
                 {property.maxGuests} Guests
@@ -180,17 +214,32 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 <Bath className="w-4 h-4" />
                 {property.bathrooms} Bathrooms
               </Badge>
-            </div>
+            </TrackedSection>
 
             {/* Description */}
-            <div>
+            <TrackedSection
+              as="div"
+              sectionId="property_description"
+              sectionName="Property description"
+              pageType="property"
+              propertyId={property.id}
+              propertySlug={property.slug}
+            >
               <h2 className="text-xl font-semibold text-foreground mb-4">About this space</h2>
               <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{property.description}</p>
-            </div>
+            </TrackedSection>
 
             {/* Sleeping Arrangements */}
             {property.specifications?.bedArrangements && (
-              <div className="border-t border-border pt-8">
+              <TrackedSection
+                as="div"
+                className="border-t border-border pt-8"
+                sectionId="sleeping_arrangements"
+                sectionName="Sleeping arrangements"
+                pageType="property"
+                propertyId={property.id}
+                propertySlug={property.slug}
+              >
                 <h2 className="text-xl font-semibold text-foreground mb-6">Sleeping arrangements</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {property.specifications.bedArrangements.map((arrangement, idx) => (
@@ -207,17 +256,33 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     </Card>
                   ))}
                 </div>
-              </div>
+              </TrackedSection>
             )}
 
             {/* Amenities */}
-            <div className="border-t border-border pt-8">
+            <TrackedSection
+              as="div"
+              className="border-t border-border pt-8"
+              sectionId="amenities"
+              sectionName="Amenities"
+              pageType="property"
+              propertyId={property.id}
+              propertySlug={property.slug}
+            >
               <AmenitiesList amenities={property.amenities} />
-            </div>
+            </TrackedSection>
 
             {/* House Rules */}
             {property.houseRules && (
-              <div className="border-t border-border pt-8">
+              <TrackedSection
+                as="div"
+                className="border-t border-border pt-8"
+                sectionId="house_rules"
+                sectionName="House rules"
+                pageType="property"
+                propertyId={property.id}
+                propertySlug={property.slug}
+              >
                 <h2 className="text-xl font-semibold text-foreground mb-4">House rules</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-muted-foreground">
                   {property.houseRules.map((rule, idx) => (
@@ -227,41 +292,70 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     </div>
                   ))}
                 </div>
-              </div>
+              </TrackedSection>
             )}
 
             {/* Location Map */}
-            <div className="border-t border-border pt-8">
+            <TrackedSection
+              as="div"
+              className="border-t border-border pt-8"
+              sectionId="map"
+              sectionName="Map"
+              pageType="property"
+              propertyId={property.id}
+              propertySlug={property.slug}
+            >
               <h2 className="text-xl font-semibold text-foreground mb-4">Location</h2>
               <PropertyMap highlightedPropertyId={property.id} showAllProperties />
-            </div>
+            </TrackedSection>
           </div>
 
           {/* Right Column - Pricing Card */}
-          <div className="lg:col-span-1">
+          <TrackedSection
+            as="div"
+            className="lg:col-span-1"
+            sectionId="booking_card"
+            sectionName="Booking card"
+            pageType="property"
+            propertyId={property.id}
+            propertySlug={property.slug}
+          >
             <PricingCard property={property} />
-          </div>
+          </TrackedSection>
         </div>
 
         {/* Other Properties */}
-        <section className="mt-16 pt-16 border-t border-border">
+        <TrackedSection
+          className="mt-16 pt-16 border-t border-border"
+          sectionId="similar_properties"
+          sectionName="Similar properties"
+          pageType="property"
+          propertyId={property.id}
+          propertySlug={property.slug}
+        >
           <h2 className="text-2xl font-bold text-foreground mb-6">Explore more properties</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherProperties.map((otherProperty) => (
               <PropertyCard key={otherProperty.id} property={otherProperty} />
             ))}
           </div>
-        </section>
+        </TrackedSection>
       </main>
 
       {/* Google Reviews */}
-      <GoogleReviews />
+      <TrackedSection as="div" sectionId="reviews" sectionName="Reviews" pageType="property" propertyId={property.id} propertySlug={property.slug}>
+        <GoogleReviews />
+      </TrackedSection>
 
       {/* Contact Section */}
-      <ContactSection />
+      <TrackedSection as="div" sectionId="contact" sectionName="Contact section" pageType="property" propertyId={property.id} propertySlug={property.slug}>
+        <ContactSection />
+      </TrackedSection>
 
       {/* Footer */}
-      <Footer />
+      <TrackedSection as="div" sectionId="footer" sectionName="Footer" pageType="property" propertyId={property.id} propertySlug={property.slug}>
+        <Footer />
+      </TrackedSection>
     </div>
   )
 }

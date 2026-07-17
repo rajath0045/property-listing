@@ -1,9 +1,11 @@
 "use client"
 
+import { useMemo } from "react"
 import { Calendar, Info } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useTrackProperty } from "@/hooks/use-track-property"
 import { Property, getCurrentPrice, getPriceLabel, formatPrice, WHATSAPP_NUMBER } from "@/lib/properties"
 import {
   Tooltip,
@@ -19,6 +21,18 @@ interface PricingCardProps {
 export function PricingCard({ property }: PricingCardProps) {
   const currentPrice = getCurrentPrice(property)
   const priceLabel = getPriceLabel(property)
+  const propertyContext = useMemo(
+    () => ({
+      property_id: property.id,
+      property_name: property.name,
+      property_slug: property.slug,
+      property_location: property.location,
+      property_price: currentPrice,
+      property_rating: property.rating,
+    }),
+    [currentPrice, property]
+  )
+  const { trackBookingButtonClick } = useTrackProperty(propertyContext)
   const whatsappMessage = encodeURIComponent(
     `Hello! I'm interested in booking ${property.name} in Gokulam, Mysuru. Could you please share availability and rates?`
   )
@@ -76,7 +90,23 @@ export function PricingCard({ property }: PricingCardProps) {
         </div>
 
         {/* WhatsApp CTA */}
-        <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block">
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+          onClick={() => {
+            trackBookingButtonClick({
+              cta_label: "Inquire via WhatsApp",
+              cta_location: "pricing_card",
+              price_shown: currentPrice,
+            })
+          }}
+          data-analytics-label="Inquire via WhatsApp"
+          data-analytics-property-id={property.id}
+          data-analytics-property-slug={property.slug}
+          data-analytics-surface="pricing_card"
+        >
           <Button
             size="lg"
             className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-medium py-6 text-lg rounded-xl"

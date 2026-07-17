@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, Star, Bed, Bath, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useTrackProperty } from "@/hooks/use-track-property"
 import { Property, getCurrentPrice, getPriceLabel, formatPrice } from "@/lib/properties"
 
 interface PropertyCardProps {
@@ -14,8 +15,21 @@ interface PropertyCardProps {
 
 export function PropertyCard({ property }: PropertyCardProps) {
   const [currentImage, setCurrentImage] = useState(0)
+  const hoverStartedAtRef = useRef<number | null>(null)
   const currentPrice = getCurrentPrice(property)
   const priceLabel = getPriceLabel(property)
+  const propertyContext = useMemo(
+    () => ({
+      property_id: property.id,
+      property_name: property.name,
+      property_slug: property.slug,
+      property_location: property.location,
+      property_price: currentPrice,
+      property_rating: property.rating,
+    }),
+    [currentPrice, property]
+  )
+  const { trackImageChanged, trackPropertyCardClick, trackPropertyCardHover } = useTrackProperty(propertyContext)
   const indicatorCount = Math.min(property.images.length, 5)
   const activeIndicator =
     property.images.length <= indicatorCount
@@ -25,17 +39,73 @@ export function PropertyCard({ property }: PropertyCardProps) {
   const nextImage = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setCurrentImage((prev) => (prev + 1) % property.images.length)
+
+    setCurrentImage((prev) => {
+      const nextIndex = (prev + 1) % property.images.length
+
+      trackImageChanged({
+        image_index: nextIndex + 1,
+        image_url: property.images[nextIndex],
+        interaction_location: "property_card",
+        direction: "next",
+      })
+
+      return nextIndex
+    })
   }
 
   const prevImage = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setCurrentImage((prev) => (prev - 1 + property.images.length) % property.images.length)
+
+    setCurrentImage((prev) => {
+      const nextIndex = (prev - 1 + property.images.length) % property.images.length
+
+      trackImageChanged({
+        image_index: nextIndex + 1,
+        image_url: property.images[nextIndex],
+        interaction_location: "property_card",
+        direction: "previous",
+      })
+
+      return nextIndex
+    })
+  }
+
+  const handleMouseEnter = () => {
+    hoverStartedAtRef.current = performance.now()
+  }
+
+  const handleMouseLeave = () => {
+    if (hoverStartedAtRef.current === null) return
+
+    const hoverDurationMs = Math.round(performance.now() - hoverStartedAtRef.current)
+    hoverStartedAtRef.current = null
+
+    if (hoverDurationMs < 250) return
+
+    trackPropertyCardHover({
+      hover_duration_ms: hoverDurationMs,
+      current_image_index: currentImage + 1,
+    })
   }
 
   return (
-    <Link href={`/property/${property.slug}`} className="block h-full">
+    <Link
+      href={`/property/${property.slug}`}
+      className="block h-full"
+      onClick={() => {
+        trackPropertyCardClick({
+          card_location: "property_grid",
+          current_image_index: currentImage + 1,
+        })
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      data-analytics-label={property.name}
+      data-analytics-property-id={property.id}
+      data-analytics-surface="property_card"
+    >
       <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-300 bg-card">
         <div className="relative aspect-[4/3] overflow-hidden">
           <Image
