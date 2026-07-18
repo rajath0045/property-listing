@@ -967,6 +967,466 @@ export const properties: Property[] = [
         "type": "attraction"
       }
     ]
+  },
+  {
+    "id": "peaceful-home-gokulam",
+    "name": "Peaceful Home in Gokulam Mysore close2 Yoga shalas",
+    "slug": "peaceful-home-gokulam-yoga-shalas",
+    "description": "Please provide Adhar and PAN card photocopy upon arrival.\n\nHouse is centrally located in the city which is close to Railway station, palace and all tourist places.\nWalkable distance to all yoga shala in Gokulam, Mysore.\nClose to yoga with srinatha, kpjayi, prana Vashya, Ashtanga sadhana etc.\nClose to all cafes, Hospital, markets, Malls and Restaurants.\nCouples allowed.\nIt is a quite spacious Location with lot of day light and cool breeze.\nHas a good scenery view on terrace.\nExperience calmness and Fresh breeze always.\n\nThe space:\nIt has two rooms with two separate full bathrooms, a kitchen, living area, Balcony, terrace. Experience calmness and fresh breeze always.\n\nGuest access:\n2nd floor full House, Private terrace, private balcony.\n\nOther things to note:\nNo lift only stairs. Direct entrance to 2nd floor.",
+    "shortDescription": "Spacious 2BR home in Gokulam with private terrace, close to major yoga shalas.",
+    "location": "Gokulam, Mysuru",
+    "coordinates": {
+      "lat": 12.334,
+      "lng": 76.6261
+    },
+    "bedrooms": 2,
+    "beds": 2,
+    "bathrooms": 2,
+    "maxGuests": 4,
+    "pricing": {
+      "basePrice": 1800,
+      "weekendPrice": 2200,
+      "seasonalPricing": [
+        {
+          "season": "Dasara Festival",
+          "startMonth": 9,
+          "endMonth": 10,
+          "price": 3000
+        },
+        {
+          "season": "Winter Season",
+          "startMonth": 12,
+          "endMonth": 2,
+          "price": 2500
+        }
+      ]
+    },
+    "rating": 4.93,
+    "reviewCount": 41,
+    "specifications": {
+      "propertyType": "Entire home (2 BHK)",
+      "bedArrangements": [
+        "2 Double Beds"
+      ],
+      "bathDetails": "2 Bathrooms (1 Attached, 1 General)",
+      "guestCapacity": "Up to 4 guests"
+    },
+    "amenities": [
+      "Body soap",
+      "Hot water",
+      "Shower gel",
+      "Washing machine",
+      "Hangers",
+      "Bed linen",
+      "Extra pillows and blankets",
+      "Iron",
+      "Clothes drying rack",
+      "Mosquito net",
+      "Clothes storage: wardrobe",
+      "32-inch TV",
+      "Cot",
+      "Ceiling fan",
+      "Exterior security cameras on property",
+      "Wifi",
+      "Dedicated workspace",
+      "Kitchen",
+      "Refrigerator",
+      "Cooking basics",
+      "Crockery and cutlery",
+      "Stainless steel induction cooker",
+      "Kettle",
+      "Blender",
+      "Dining table",
+      "Private entrance",
+      "Outdoor furniture",
+      "Outdoor dining area",
+      "Free parking on premises",
+      "Free on-street parking"
+    ],
+    "houseRules": [
+      "Check-in after 12:00 PM",
+      "Check-out before 11:00 AM",
+      "Couples allowed",
+      "Provide Aadhar & PAN photocopy upon arrival",
+      "No parties or events"
+    ],
+    "bookingInformation": {
+      "checkIn": "12:00 PM",
+      "checkOut": "11:00 AM",
+      "selfCheckIn": true,
+      "cancellationPolicy": "Flexible"
+    },
+    "images": [
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/1bdd00fb-5810-4acb-85ec-f47d5350d5ef.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/5ac01753-e472-4a9a-b2d9-6d1f13d72fbd.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/680733d4-06ee-4836-9bfd-5b9a57ad459c.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/ae681c64-860b-414a-9cae-55aee8d3b781.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/f45a4cd5-bb61-4534-ad38-51b0d5f225d0.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/fcd555c9-14e9-49c8-945e-8189982d584d.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 1/2003d8d3-9d7c-491c-a108-77db02440650.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 1/5bd92b92-74f2-4c02-acf9-e35303fccca0.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 2/5896f3b0-d5e5-4037-8caf-5b0409500bc3.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 2/6130d139-e4a9-4689-ac2a-744f48f559c3.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/118673b2-8c22-4f32-b9e5-2065f0a71027.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/2450d051-c12d-4698-95f1-21a1906b596e.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/b4d37377-fb90-4c1a-b489-af522a076388.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/c3b1778f-bc6e-4637-b2ae-fa55ca14448a.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/c4e57714-601b-44b7-a238-ce87245ba5fb.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/0b911248-9197-42cc-8d50-e644ba4d8305.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/26bee5ac-be74-479b-8b88-989d91153ede.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/4472aa02-b074-4e17-a0ab-3f27730c09e9.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/616022fe-f67a-43b9-a784-96b4e1ad2343.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/courtyard/8b03dcc0-3976-4ee4-bcbf-882d1c9bcac6.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/courtyard/e872bd17-0c15-4027-9fac-8bbf35e7c02b.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/dining area/4c853946-05e6-479c-8f88-11e9d88b0dcf.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/04e8b5b2-5807-4de0-b46c-9db73e3fdd75.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/106cb416-5143-4c68-b6f7-c0be7d506e88.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/1b08ec03-2d4f-4947-bcf8-68a140c2ba43.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/22344fd2-84bd-456c-ac37-8fc1f350347a.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/5a826cac-1277-4fda-9673-b664d7b75354.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/638b7c25-e0fd-415a-bcc9-970a4af05631.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/6746820c-7b85-49da-aca9-5dc7bbe3e86e.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/899f2bde-f3a0-4351-9c03-0fae220b66fc.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/a6cc3fd9-7db8-48dc-9d0c-28541ee5ac3b.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/e59658da-ea7a-497a-b886-7ee8f951b03d.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/f04dc405-873e-49ed-9d72-3e08a908b688.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/0ae8155d-efe6-4469-9e68-bfc829a606b1.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/191e2c17-1a04-4163-8efd-ec1ed24d8076.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/6c7d7f6d-cfa5-49ea-925a-950fd488eb93.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/86b739c1-5ca1-47b7-81fa-ad4a5f42149b.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/a55e6dd1-58b8-43d4-ac5e-70b82280cb17.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/c501a0c9-c653-4134-9b25-9eb43a036d80.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/da25aa07-7017-4384-bbd6-30d2bd87cbb6.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/dfa5ff5f-4051-4bf6-8c34-97428803b4b1.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/living room/7069753b-c441-4e0b-9797-3b0b7c1db183.avif",
+      "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/living room/91aaeb89-b748-4a47-8998-8b996b53645b.avif"
+    ],
+    "imageCategories": [
+      {
+        "name": "Additional",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/1bdd00fb-5810-4acb-85ec-f47d5350d5ef.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/5ac01753-e472-4a9a-b2d9-6d1f13d72fbd.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/680733d4-06ee-4836-9bfd-5b9a57ad459c.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/ae681c64-860b-414a-9cae-55aee8d3b781.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/f45a4cd5-bb61-4534-ad38-51b0d5f225d0.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/additional/fcd555c9-14e9-49c8-945e-8189982d584d.avif"
+        ]
+      },
+      {
+        "name": "Bathroom 1",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 1/2003d8d3-9d7c-491c-a108-77db02440650.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 1/5bd92b92-74f2-4c02-acf9-e35303fccca0.avif"
+        ]
+      },
+      {
+        "name": "Bathroom 2",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 2/5896f3b0-d5e5-4037-8caf-5b0409500bc3.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bathroom 2/6130d139-e4a9-4689-ac2a-744f48f559c3.avif"
+        ]
+      },
+      {
+        "name": "Bedroom 1",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/118673b2-8c22-4f32-b9e5-2065f0a71027.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/2450d051-c12d-4698-95f1-21a1906b596e.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/b4d37377-fb90-4c1a-b489-af522a076388.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/c3b1778f-bc6e-4637-b2ae-fa55ca14448a.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 1/c4e57714-601b-44b7-a238-ce87245ba5fb.avif"
+        ]
+      },
+      {
+        "name": "Bedroom 2",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/0b911248-9197-42cc-8d50-e644ba4d8305.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/26bee5ac-be74-479b-8b88-989d91153ede.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/4472aa02-b074-4e17-a0ab-3f27730c09e9.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/bedroom 2/616022fe-f67a-43b9-a784-96b4e1ad2343.avif"
+        ]
+      },
+      {
+        "name": "Courtyard",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/courtyard/8b03dcc0-3976-4ee4-bcbf-882d1c9bcac6.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/courtyard/e872bd17-0c15-4027-9fac-8bbf35e7c02b.avif"
+        ]
+      },
+      {
+        "name": "Dining Area",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/dining area/4c853946-05e6-479c-8f88-11e9d88b0dcf.avif"
+        ]
+      },
+      {
+        "name": "Exterior",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/04e8b5b2-5807-4de0-b46c-9db73e3fdd75.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/106cb416-5143-4c68-b6f7-c0be7d506e88.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/1b08ec03-2d4f-4947-bcf8-68a140c2ba43.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/22344fd2-84bd-456c-ac37-8fc1f350347a.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/5a826cac-1277-4fda-9673-b664d7b75354.avif",
+          "/properties/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/638b7c25-e0fd-415a-bcc9-970a4af05631.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/6746820c-7b85-49da-aca9-5dc7bbe3e86e.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/899f2bde-f3a0-4351-9c03-0fae220b66fc.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/a6cc3fd9-7db8-48dc-9d0c-28541ee5ac3b.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/e59658da-ea7a-497a-b886-7ee8f951b03d.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/exterior/f04dc405-873e-49ed-9d72-3e08a908b688.avif"
+        ]
+      },
+      {
+        "name": "Kitchen",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/0ae8155d-efe6-4469-9e68-bfc829a606b1.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/191e2c17-1a04-4163-8efd-ec1ed24d8076.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/6c7d7f6d-cfa5-49ea-925a-950fd488eb93.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/86b739c1-5ca1-47b7-81fa-ad4a5f42149b.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/a55e6dd1-58b8-43d4-ac5e-70b82280cb17.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/c501a0c9-c653-4134-9b25-9eb43a036d80.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/da25aa07-7017-4384-bbd6-30d2bd87cbb6.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/kitchen/dfa5ff5f-4051-4bf6-8c34-97428803b4b1.avif"
+        ]
+      },
+      {
+        "name": "Living Room",
+        "images": [
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/living room/7069753b-c441-4e0b-9797-3b0b7c1db183.avif",
+          "/properties/Peaceful Home in Gokulam Mysore close2 Yoga shalas/living room/91aaeb89-b748-4a47-8998-8b996b53645b.avif"
+        ]
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "name": "Yoga Center (Gokulam Shalas)",
+        "distance": "0.2 km - 0.8 km",
+        "type": "yoga"
+      },
+      {
+        "name": "Mysuru Railway Station",
+        "distance": "2.5 km",
+        "type": "railway"
+      },
+      {
+        "name": "Mysuru Palace",
+        "distance": "4.5 km",
+        "type": "palace"
+      },
+      {
+        "name": "Mysore Rail Museum",
+        "distance": "2.8 km",
+        "type": "museum"
+      },
+      {
+        "name": "Chamundi Hills",
+        "distance": "9.0 km",
+        "type": "attraction"
+      }
+    ]
+  },
+  {
+    "id": "one-bedroom-gokulam-yoga",
+    "name": "One Bedroom in Gokulam Close to All Yoga Shala",
+    "slug": "one-bedroom-gokulam-yoga-shala",
+    "description": "Your family will be close to everything when you stay at this centrally-located place.\n\nFeatures:\n- Close to Railway station, palace and other tourist spots as it is in heart of the city.\n- Walkable distance to all yoga shalas in Gokulam.\n- Couples allowed.\n- No house sharing mode (entire space to yourself).\n- Quiet and peaceful location.",
+    "shortDescription": "Cozy 1BR homestay in Gokulam with 1.5 bathrooms, close to all yoga shalas.",
+    "location": "Gokulam, Mysuru",
+    "coordinates": {
+      "lat": 12.3344,
+      "lng": 76.624
+    },
+    "bedrooms": 1,
+    "beds": 2,
+    "bathrooms": 1.5,
+    "maxGuests": 3,
+    "pricing": {
+      "basePrice": 1400,
+      "weekendPrice": 1700,
+      "seasonalPricing": [
+        {
+          "season": "Dasara Festival",
+          "startMonth": 9,
+          "endMonth": 10,
+          "price": 2400
+        },
+        {
+          "season": "Winter Season",
+          "startMonth": 12,
+          "endMonth": 2,
+          "price": 1900
+        }
+      ]
+    },
+    "rating": 4.97,
+    "reviewCount": 35,
+    "specifications": {
+      "propertyType": "Entire home (1 BHK)",
+      "bedArrangements": [
+        "2 Beds"
+      ],
+      "bathDetails": "1.5 Bathrooms (1 Full, 1 Guest Toilet)",
+      "guestCapacity": "Up to 3 guests"
+    },
+    "amenities": [
+      "Hot water",
+      "Washing machine",
+      "Hangers",
+      "Iron",
+      "Cot",
+      "Heating",
+      "Exterior security cameras on property",
+      "Wifi",
+      "Kitchen",
+      "Fridge",
+      "Cooking basics",
+      "Crockery and cutlery",
+      "Kettle",
+      "Blender",
+      "Free parking on premises",
+      "Smoking allowed",
+      "Self check-in",
+      "Smart lock",
+      "TV",
+      "Tumble dryer",
+      "Air conditioning",
+      "Essentials",
+      "Smoke alarm",
+      "Carbon monoxide alarm"
+    ],
+    "houseRules": [
+      "Check-in after 12:00 PM",
+      "Check-out before 11:00 AM",
+      "Couples allowed",
+      "Smoking allowed",
+      "No parties or events"
+    ],
+    "bookingInformation": {
+      "checkIn": "12:00 PM",
+      "checkOut": "11:00 AM",
+      "selfCheckIn": true,
+      "cancellationPolicy": "Flexible"
+    },
+    "images": [
+      "/properties/one bedroom in Gokulam close to all yoga shala/additional/3e491e42-ea26-4aa3-a4cd-b390e23d5c23.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/additional/6bc7fb8b-c7f7-4ac2-85c6-4d9c48fd6d7a.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/additional/a4dde921-80fe-49ae-ada0-a5ad2fbb6758.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/additional/ecca0f0c-a51b-46c3-bd5c-33479063776a.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bathroom/1f7544a1-e232-4d05-870c-bce21bf264d1.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bathroom/b7c07b38-c248-4a43-b3a7-6c489983f2c2.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bathroom/ea679887-d719-4a4a-8164-18b7aa881b2b.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/00c08c26-2aed-4741-b41d-02c79bde658a.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/129f6908-03e1-4e34-ab22-60632e439fee.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/32d5c92d-94bb-49d9-8c9f-e517f347eb6a.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/54295c5b-0b24-4b10-94af-d9147b5cabf5.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/8dec645b-b5e4-4f0c-9aaf-beb660d33cd3.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/96ed3261-c4bf-461d-baff-42e1ae106456.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/af970c3b-759c-42c5-a664-59c5a3e88101.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/e0840a21-b436-475d-85b2-479f0a0395c8.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/e36d16cd-de84-4b8d-b94f-c5b85f976030.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/dining area/af6a8651-7aea-4e74-b60a-130e1917027c.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/exterior/6f736de1-bb91-4a1e-88d2-9cab238b320c.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/kitchen/230e9aee-39cb-4631-b1d4-b24b06c8e6f1.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/kitchen/ee93aee9-3b3d-42e3-b347-34af546be90a.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/living room/939e8cde-3967-44a4-b208-801b22165be6.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/living room/98dda34a-3c62-4543-bf69-95ff6f4beb86.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/living room/f2ca9fa0-66e3-47ff-9fbc-3a8305fb85d2.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/wc/da71cc62-886d-4e56-99a2-7022fd10e92b.avif",
+      "/properties/one bedroom in Gokulam close to all yoga shala/wc/dc2daf82-9687-4dc5-99c8-1c7531995e61.avif"
+    ],
+    "imageCategories": [
+      {
+        "name": "Additional",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/additional/3e491e42-ea26-4aa3-a4cd-b390e23d5c23.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/additional/6bc7fb8b-c7f7-4ac2-85c6-4d9c48fd6d7a.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/additional/a4dde921-80fe-49ae-ada0-a5ad2fbb6758.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/additional/ecca0f0c-a51b-46c3-bd5c-33479063776a.avif"
+        ]
+      },
+      {
+        "name": "Bathroom",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/bathroom/1f7544a1-e232-4d05-870c-bce21bf264d1.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bathroom/b7c07b38-c248-4a43-b3a7-6c489983f2c2.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bathroom/ea679887-d719-4a4a-8164-18b7aa881b2b.avif"
+        ]
+      },
+      {
+        "name": "Bedroom",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/00c08c26-2aed-4741-b41d-02c79bde658a.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/129f6908-03e1-4e34-ab22-60632e439fee.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/32d5c92d-94bb-49d9-8c9f-e517f347eb6a.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/54295c5b-0b24-4b10-94af-d9147b5cabf5.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/8dec645b-b5e4-4f0c-9aaf-beb660d33cd3.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/96ed3261-c4bf-461d-baff-42e1ae106456.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/af970c3b-759c-42c5-a664-59c5a3e88101.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/e0840a21-b436-475d-85b2-479f0a0395c8.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/bedroom/e36d16cd-de84-4b8d-b94f-c5b85f976030.avif"
+        ]
+      },
+      {
+        "name": "Dining Area",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/dining area/af6a8651-7aea-4e74-b60a-130e1917027c.avif"
+        ]
+      },
+      {
+        "name": "Exterior",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/exterior/6f736de1-bb91-4a1e-88d2-9cab238b320c.avif"
+        ]
+      },
+      {
+        "name": "Kitchen",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/kitchen/230e9aee-39cb-4631-b1d4-b24b06c8e6f1.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/kitchen/ee93aee9-3b3d-42e3-b347-34af546be90a.avif"
+        ]
+      },
+      {
+        "name": "Living Room",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/living room/939e8cde-3967-44a4-b208-801b22165be6.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/living room/98dda34a-3c62-4543-bf69-95ff6f4beb86.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/living room/f2ca9fa0-66e3-47ff-9fbc-3a8305fb85d2.avif"
+        ]
+      },
+      {
+        "name": "Wc",
+        "images": [
+          "/properties/one bedroom in Gokulam close to all yoga shala/wc/da71cc62-886d-4e56-99a2-7022fd10e92b.avif",
+          "/properties/one bedroom in Gokulam close to all yoga shala/wc/dc2daf82-9687-4dc5-99c8-1c7531995e61.avif"
+        ]
+      }
+    ],
+    "nearbyPlaces": [
+      {
+        "name": "Yoga Center (Gokulam Shalas)",
+        "distance": "0.2 km - 0.8 km",
+        "type": "yoga"
+      },
+      {
+        "name": "Mysuru Railway Station",
+        "distance": "2.5 km",
+        "type": "railway"
+      },
+      {
+        "name": "Mysuru Palace",
+        "distance": "4.5 km",
+        "type": "palace"
+      },
+      {
+        "name": "Mysore Rail Museum",
+        "distance": "2.8 km",
+        "type": "museum"
+      },
+      {
+        "name": "Chamundi Hills",
+        "distance": "9.0 km",
+        "type": "attraction"
+      }
+    ]
   }
 ];
 

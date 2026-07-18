@@ -4,7 +4,7 @@ import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 import { useTrackEvent } from "@/hooks/use-track-event"
 import { analyticsEvents } from "@/lib/analytics/config"
-import { WHATSAPP_NUMBER } from "@/lib/properties"
+import { WHATSAPP_NUMBER, properties } from "@/lib/properties"
 
 export function Hero() {
   const trackEvent = useTrackEvent()
@@ -87,7 +87,7 @@ export function Hero() {
         {/* Stats */}
         <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-light text-card">4</p>
+            <p className="text-3xl sm:text-4xl font-light text-card">{properties.length}</p>
             <p className="text-sm text-card/70 mt-1">Properties</p>
           </div>
           <div className="text-center">
