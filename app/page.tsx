@@ -4,7 +4,7 @@ import { Footer } from "@/components/footer"
 import { PropertyCard } from "@/components/property-card"
 import { PropertyMap } from "@/components/property-map"
 import { GoogleReviews } from "@/components/google-reviews"
-import { InstagramFeed } from "@/components/instagram-feed"
+import { InstagramProfile } from "@/components/instagram-profile"
 import { ContactSection } from "@/components/contact-section"
 import { TrackedSection } from "@/components/analytics/tracked-section"
 import { properties } from "@/lib/properties"
@@ -74,14 +74,30 @@ export default function HomePage() {
         <GoogleReviews />
       </TrackedSection>
 
-      {/* Instagram Feed */}
-      <TrackedSection as="div" sectionId="instagram_feed" sectionName="Instagram feed" pageType="home">
-        <InstagramFeed />
-      </TrackedSection>
-
       {/* Contact Section */}
       <TrackedSection as="div" sectionId="contact" sectionName="Contact section" pageType="home">
         <ContactSection />
+      </TrackedSection>
+
+      {/* Instagram Profile Section */}
+      <TrackedSection
+        className="py-20 bg-secondary/30"
+        sectionId="instagram_profile"
+        sectionName="Instagram profile"
+        pageType="home"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3">Social Media</p>
+            <h2 className="text-3xl sm:text-4xl font-serif font-light text-foreground mb-4">
+              Follow Us on Instagram
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto text-balance">
+              Follow @gokulamstays for our latest property updates, guest reviews, and local Mysuru travel tips!
+            </p>
+          </div>
+          <InstagramProfile />
+        </div>
       </TrackedSection>
 
       {/* Footer */}
